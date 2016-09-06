@@ -1,0 +1,61 @@
+<table id="cost" class="easyui-datagrid" title="采购成本查询" style="width:auto;"
+			data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:'#pcost'">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:30">序号</th>
+				<th data-options="field:'productid',width:230">商品名称</th>
+				<th data-options="field:'listprice',width:80,align:'right'">规格</th>
+				<th data-options="field:'unitcost',width:130,align:'right'">订购数量</th>
+				<th data-options="field:'attr1',width:130">实收数量</th>
+				<th data-options="field:'status',width:130,align:'center'">供应商</th>
+				<th data-options="field:'status',width:130,align:'center'">单价</th>
+				<th data-options="field:'status',width:130,align:'center'">金额</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="pcost" style="padding:5px;height:auto">
+		<!-- <div style="margin-bottom:5px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"></a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true"></a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true"></a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
+		</div> -->
+		<div>
+			项目点：
+			<select class="easyui-combobox" panelHeight="auto" style="width:100px">
+				<option value="java">交大闵行点</option>
+				<option value="c">C</option>
+				<option value="basic">Basic</option>
+				<option value="perl">Perl</option>
+				<option value="python">Python</option>
+			</select>
+			进货日期: <input class="easyui-datebox" style="width:150px">
+			- <input class="easyui-datebox" style="width:150px">
+			
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			<p></p>
+			供应商：
+			<select class="easyui-combobox" panelHeight="auto" style="width:100px">
+				<option value="java">交大闵行点</option>
+				<option value="c">C</option>
+				<option value="basic">Basic</option>
+				<option value="perl">Perl</option>
+				<option value="python">Python</option>
+			</select>
+			
+			进货商品:
+			<input type="text" class="easyui-textbox">
+
+
+		</div>
+	</div>
+
+	<script>
+    $('#cost').datagrid({
+      url:'temp/datagrid.json',
+      method:'get',
+      // rownumbers:true,
+     
+  });
+</script>

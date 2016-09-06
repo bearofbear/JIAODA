@@ -1,0 +1,149 @@
+
+<div style="padding:5px 0;">
+	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="$('#adduser').window('open')">新增角色</a>
+	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="$('#adduser').window('open')">编辑</a>
+	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"  onclick="confirm1();">删除</a>
+	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="$('#setmain').window('open')">设置权限</a>
+</div>
+
+
+<table class="easyui-datagrid" id="userlist" title="角色列表" style="width:auto;height:350px"
+			data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+		<thead>
+			<tr>
+				<!-- <th data-options="field:'unitcost',width:80,checkbox:true"></th> -->
+				<th data-options="field:'itemid',width:80">序号</th>
+				<th data-options="field:'productid',width:100">角色名称</th>
+				<th data-options="field:'listprice',width:80">描述</th>
+			</tr>
+		</thead>
+</table>
+ 
+	<div id="adduser" class="easyui-window" title="新增角色" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:500px;padding:10px;">
+	
+			<div>角色名称:</div>
+			<br/>
+			<input class="easyui-textbox" name="name"  data-options="prompt:'输入角色名称...',validType:'name',required:true" style="width:100%;height:32px">
+			<p></p>
+			<div>描述内容:</div>
+			<br/>
+			<input class="easyui-textbox" name="message" data-options="multiline:true,validType:'name',required:true" style="width:100%;height:62px">
+
+
+			<div style="margin:10px 0;"><a href="#" class="easyui-linkbutton" iconCls="icon-ok" style="width:100%;height:32px" onclick="submitForm()">确认提交</a></div>
+		
+	</div>
+
+
+
+<!-- 设置权限 -->
+<div id="setmain" class="easyui-window" title="设置权限" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:800px;padding:10px;">
+
+	<table class="easyui-datagrid" id="setguid" title="权限设置" style="width:auto;height:auto;">
+
+	</table>
+	<div id="tb" style="padding:5px 0; height: 50px;">
+		
+		<div>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok" >确认</a>
+		</div>
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+	function submitForm(){
+		$('#adpost').form('submit',{
+			onSubmit:function(){
+				return $(this).form('enableValidation').form('validate');
+			}
+		});
+	}
+
+
+	
+/**
+	* Name 分页过滤器
+	*/
+	function pagerFilter(data){            
+		if (typeof data.length == 'number' && typeof data.splice == 'function'){// is array                
+			data = {                   
+				total: data.length,                   
+				rows: data               
+			}            
+		}        
+		var dg = $(this);         
+		var opts = dg.datagrid('options');          
+		var pager = dg.datagrid('getPager');          
+		pager.pagination({                
+			onSelectPage:function(pageNum, pageSize){                 
+				opts.pageNumber = pageNum;                   
+				opts.pageSize = pageSize;                
+				pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});                  
+				dg.datagrid('loadData',data);                
+			}          
+		});           
+		if (!data.originalRows){               
+			data.originalRows = (data.rows);       
+		}         
+		var start = (opts.pageNumber-1)*parseInt(opts.pageSize);          
+		var end = start + parseInt(opts.pageSize);        
+		data.rows = (data.originalRows.slice(start, end));         
+		return data;       
+	}
+	
+	/**
+	* Name 载入数据
+	*/
+	$('#userlist').datagrid({
+		url:'temp/datagrid.json',
+		loadFilter:pagerFilter,		
+		rownumbers:true,
+		pageSize:10,      
+		pagePosition:'top', 
+		// pageList:[10,20,30,40],    
+		pagination:true,
+		multiSort:true,
+		fitColumns:true,
+		fit:true,
+	});
+
+	$('#setguid').datagrid({
+		url:'temp/datagrid.json',
+		method:'get',
+		loadFilter:pagerFilter,		
+		singleSelect:true,
+		// pageList:[10,20,30,40],
+		pageSize:20,      
+		pagePosition:'top',     
+		pagination:true,
+		multiSort:true,
+		fitColumns:true,
+		fit:true,
+		
+		columns:[[
+			{ field:'unitcost',checkbox:true,width:100,sortable:true},
+			{ field:'productid',title:'角色名称',width:100,sortable:true},
+			{ field:'productname',title:'权限描述',width:180,sortable:true},
+		]]
+	});
+
+
+
+	// 删除选项
+	function confirm1(){
+			$.messager.confirm('My Title', '确认删除?', function(r){
+				if (r){
+					alert('confirmed: '+r);
+				}
+			});
+		}
+	function prompt1(){
+		$.messager.prompt('My Title', 'Please type something', function(r){
+			if (r){
+				alert('you type: '+r);
+			}
+		});
+	}
+</script>

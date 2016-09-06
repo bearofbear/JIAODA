@@ -1,0 +1,61 @@
+     <div style="padding:10px 0 20px;" id="getalltool">
+        <select class="easyui-combobox" name="state" style="width:200px;">
+        <option value="AL">项目点选择</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        </select>
+    </div>
+    <table id="cfh" title="存货收发存汇总表" class="easyui-datagrid" style="width:auto;"
+singleSelect="true" iconCls="icon-save" rownumbers="true">
+        <thead>
+            <tr>
+                <th rowspan="2" field="itemid" width="60" data-options="editor:'text'">会计日期</th>
+                <th rowspan="2" field="itemid" width="60" data-options="editor:'text'">物料代码</th>
+                <th rowspan="2" field="itemid" width="60" data-options="editor:'text'">物料名称</th>
+                <th rowspan="2" field="itemid" width="60" data-options="editor:'text'">规格型号</th>
+                 
+                <th rowspan="2" field="itemid" width="60" data-options="editor:'text'">计量单位</th>
+
+                <th colspan="3" width="100">期初结存</th>
+
+                <th colspan="3" width="200">本期收入</th>
+
+                <th colspan="3">本期发出</th>
+                <th colspan="3" width="200">期末结存</th>
+                
+            </tr>
+
+            <tr>
+                <th field="productid" width="116" align="center" data-options="editor:'text'">数量</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">单价</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">金额</th>
+
+                <th field="productid" width="116" align="center" data-options="editor:'text'">数量</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">单价</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">金额</th>
+
+                <th field="productname" width="116" align="center" data-options="editor:'text'">数量</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">单价</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">金额</th>
+
+
+                <th field="productname" width="116" align="center" data-options="editor:'text'">数量</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">单价</th>
+                <th field="productname" width="116" align="center" data-options="editor:'text'">金额</th>
+
+                
+            </tr>
+
+        </thead>
+    </table>
+                
+<script>
+    $('#cfh').datagrid({
+      url:'temp/datagrid.json',
+      method:'get',
+      rownumbers:true,
+      toolbar:'#getalltool'
+  });
+</script>

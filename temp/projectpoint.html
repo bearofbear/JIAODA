@@ -1,0 +1,314 @@
+<div class="easyui-layout" data-options="fit:true">
+
+	<div data-options="region:'center',border:false">
+		<!-- Begin of toolbar -->
+		<div id="wu-projectbar">
+			<div class="wu-toolbar-button">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-add"
+					onclick="projectAdd()" plain="true">新增</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-edit"
+					onclick="projectEdit()" plain="true">修改</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-remove"
+					onclick="projectremove()" plain="true">删除</a>
+			</div>
+			<div style="margin: 10px 0;">
+				查询类目：<input class="easyui-combobox"
+					data-options="
+				loader: myloader,
+				mode: 'remote',
+				valueField: 'id',
+				textField: 'name'"
+					style="width: 300px">
+				<!-- 搜索下拉提示 -->
+				<script>
+					var myloader = function(param, success, error) {
+						var q = param.q || '';
+						if (q.length <= 1) {
+							return false
+						}
+						$
+								.ajax({
+									url : 'http://ws.geonames.org/searchJSON',
+									dataType : 'jsonp',
+									data : {
+										featureClass : "P",
+										style : "full",
+										maxRows : 20,
+										name_startsWith : q
+									},
+									success : function(data) {
+										var items = $
+												.map(
+														data.geonames,
+														function(item) {
+															return {
+																id : item.geonameId,
+																name : item.name
+																		+ (item.adminName1 ? ', '
+																				+ item.adminName1
+																				: '')
+																		+ ', '
+																		+ item.countryName
+															};
+														});
+										success(items);
+									},
+									error : function() {
+										error.apply(this, arguments);
+									}
+								});
+					}
+				</script>
+			</div>
+		</div>
+		<!-- End of toolbar -->
+		<table id="projectList" class="easyui-datagrid" title="项目点列表"
+			style="width: 700px; height: 250px"
+			data-options="iconCls:'icon-ok',singleSelect:true,collapsible:true,toolbar:'#wu-projectbar'">
+		</table>
+	</div>
+</div>
+<!-- Begin of easyui-dialog -->
+<div id="projectDialog" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 500px; height: 500px; padding: 10px;">
+	<form id="projectForm" method="post">
+		<table>
+			<tr>
+				<td width="90" align="right">项目点编号:</td>
+				<td><input type="text" name="productid" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td width="90" align="right">项目点名称:</td>
+				<td><input type="text" name="name"
+					class="easyui-textbox wu-text" data-options="required:true" /></td>
+			</tr>
+
+			<tr>
+				<td align="right">联系人:</td>
+				<td><input type="text" name="contacts"
+					class="easyui-textbox wu-text" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td align="right">地址:</td>
+				<td><input type="text" name="address"
+					class="easyui-textbox wu-text" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td align="right">电话:</td>
+				<td><input type="text" name="phone"
+					class="easyui-textbox wu-text" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td valign="top" align="right">指定供应商:</td>
+				<td><select id="projectSelect" class="easyui-combobox wu-text"
+					name="state"
+					data-options="valueField:'id',textField:'text',multiple:true,multiline:true,url:'temp/combobox_data1.json',method:'get',required:true"
+					style="width: 266px; height: 50px;"></select></td>
+			</tr>
+			<tr>
+				<td align="right">项目点类型:</td>
+				<td>
+				<select id="pointType" name="pointType"
+					style="width: 266px;">
+						<option value="1">校外</option>
+						<option value="0">校内</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+            	<td align="right">月末结账日期:</td>
+            	<td><input class="easyui-datebox" style="width: 266px;" data-options="required:true,editable:false"></td>
+            </tr>
+		</table>
+	</form>
+</div>
+
+
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+	$(function() {
+		/**
+		 * Name 载入数据
+		 */
+		$('#projectList').datagrid({
+			url : 'temp/supplier.json',
+			method : 'get',
+			loadFilter : pagerFilter,
+			rownumbers : true,
+			pageSize : 10,
+			pagePosition : 'bottom',
+			// pageList:[10,20,30,40],    
+			pagination : true,
+			multiSort : true,
+			fitColumns : true,
+			fit : true,
+			columns : [ [ {
+				field : 'name',
+				title : '项目点名称',
+				width : 100,
+				sortable : true
+			}, {
+				field : 'address',
+				title : '地址',
+				width : 180,
+				sortable : true
+			}, {
+				field : 'contacts',
+				title : '联系人',
+				width : 100
+			}, {
+				field : 'phone',
+				title : '电话',
+				width : 100
+			} ] ]
+		});
+	});
+
+	/**
+	 * Name 打开添加窗口
+	 */
+	function projectAdd() {
+		$('#projectForm').form('clear');
+		var idTr = $("#projectForm input[name='productid']");
+		idTr.attr('disabled', 'disabled');
+		idTr.parent().parent().hide();
+		$("#pointType").combobox();
+		$("#pointType").combobox("setValue", "1");
+		$('#projectDialog').dialog({
+			closed : false,
+			modal : true,
+			title : "新增项目点",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : editProject
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#projectDialog').dialog('close');
+				}
+			} ]
+		});
+	}
+	/**
+	 * Name 打开修改窗口
+	 */
+	function projectEdit() {
+		var row = $('#projectList').datagrid('getSelected');
+		if (row) {
+			$('#projectForm').form('clear');
+			$('#projectForm').form('load', {
+				productid : row.productid,
+				name : row.name,
+				address : row.address,
+				phone : row.phone,
+				contacts : row.contacts,
+				pointType:row.pointType
+			});
+			var idTr = $("#projectForm input[name='productid']");
+			idTr.removeAttr('disabled').attr('readonly', 'readonly');
+			idTr.parent().parent().show();
+			$('#projectDialog').dialog({
+				closed : false,
+				modal : true,
+				title : "修改项目点",
+				buttons : [ {
+					text : '确定',
+					iconCls : 'icon-ok',
+					handler : editProject
+				}, {
+					text : '取消',
+					iconCls : 'icon-cancel',
+					handler : function() {
+						$('#projectDialog').dialog('close');
+					}
+				} ]
+			});
+		} else {
+			$.messager.alert('信息提示', '请选择供应商！', 'info');
+		}
+
+	}
+	/**
+	 * Name 添加记录
+	 */
+	function editProject() {
+		$('#projectForm').form('submit', {
+			url : '',
+			onSubmit : function() {
+				return $(this).form('enableValidation').form('validate');
+			},
+			success : function(data) {
+				if (data) {
+					$.messager.alert('信息提示', '提交成功！', 'info');
+					$('#projectDialog').dialog('close');
+				} else {
+					$.messager.alert('信息提示', '提交失败！', 'info');
+				}
+			}
+		});
+	}
+
+	/**
+	 * Name 删除记录
+	 */
+	function projectremove() {
+		var row = $('#projectList').datagrid('getSelected');
+		if (row) {
+			$.messager.confirm('信息提示', '确定要删除该记录？', function(result) {
+				console.info(result);
+				if (result) {
+					$.ajax({
+						url : '',
+						data : '',
+						success : function(data) {
+							if (data) {
+								$.messager.alert('信息提示', '删除成功！', 'info');
+							} else {
+								$.messager.alert('信息提示', '删除失败！', 'info');
+							}
+						}
+					});
+				}
+			});
+		} else {
+			$.messager.alert('信息提示', '请选择供应商！', 'info');
+		}
+
+	}
+
+	/**
+	 * Name 分页过滤器
+	 */
+	function pagerFilter(data) {
+		if (typeof data.length == 'number' && typeof data.splice == 'function') {// is array                
+			data = {
+				total : data.length,
+				rows : data
+			}
+		}
+		var dg = $(this);
+		var opts = dg.datagrid('options');
+		var pager = dg.datagrid('getPager');
+		pager.pagination({
+			onSelectPage : function(pageNum, pageSize) {
+				opts.pageNumber = pageNum;
+				opts.pageSize = pageSize;
+				pager.pagination('refresh', {
+					pageNumber : pageNum,
+					pageSize : pageSize
+				});
+				dg.datagrid('loadData', data);
+			}
+		});
+		if (!data.originalRows) {
+			data.originalRows = (data.rows);
+		}
+		var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+		var end = start + parseInt(opts.pageSize);
+		data.rows = (data.originalRows.slice(start, end));
+		return data;
+	}
+</script>

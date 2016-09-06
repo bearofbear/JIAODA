@@ -1,0 +1,380 @@
+<div class="easyui-layout" data-options="fit:true">
+	<div data-options="region:'west',border:true,split:true," title="商品分类"
+	style="width: 200px; padding: 5px;">
+	<ul id="wu-category-tree" class="easyui-tree wu-side-tree">
+
+	</ul>
+</div>
+<div data-options="region:'center',border:false">
+	<div id="wu-toolbar">
+		<div class="wu-toolbar-button">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd()" plain="true">新增商品</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit()" plain="true">修改商品</a> 
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="remove()" plain="true">删除商品</a>
+		</div>
+		<div style="margin: 10px 0;"></div>
+	</div>
+	<!-- End of toolbar -->
+	<table id="dg" class="easyui-datagrid" title="商品列表"
+	data-options="iconCls:'icon-ok',singleSelect:true,collapsible:true,toolbar:'#wu-toolbar'">
+	</table>
+
+</div>
+
+
+
+
+</div>
+
+<div id="mm" class="easyui-menu" style="width: 120px;">
+	<div onclick="append()" data-options="iconCls:'icon-add'">新增</div>
+	<div id="menu_edit" onclick="editnode()" data-options="iconCls:'icon-edit'">编辑</div>
+	<div id="menu_del" onclick="confirm1()"	data-options="iconCls:'icon-remove'">删除</div>
+</div>
+<!-- Begin of easyui-dialog -->
+<div id="wu-dialog" class="easyui-dialog"
+data-options="closed:true,iconCls:'icon-save'"
+style="width: 380px; height: 500px; padding: 20px;">
+<form id="wu-form" method="post">
+
+	<table>
+		<tr height="35">
+			<td width="70" align="right">商品名称:</td>
+			<td><input type="text" name="productname"
+				class="easyui-textbox" style="width: 200px"
+				data-options="required:true" /></td>
+			</tr>
+			<tr height="35">
+				<td align="right">全名:</td>
+				<td><input type="text" name="fullname" class="easyui-textbox"
+					style="width: 200px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr height="35">
+				<td align="right">助记码:</td>
+				<td><input type="text" name="subject" class="easyui-textbox"
+					style="width: 200px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr height="35">
+				<td align="right">单位:</td>
+				<td><input type="text" name="subject" class="easyui-textbox"
+					style="width: 200px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr height="35">
+				<td align="right">规格:</td>
+				<td><input type="text" name="subject" class="easyui-textbox"
+					style="width: 200px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr height="35">
+				<td align="right">指导价:</td>
+				<td><input type="text" name="subject" class="easyui-textbox"
+					style="width: 200px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr height="35">
+				<td align="right">结算价:</td>
+				<td><input type="text" name="subject" class="easyui-textbox"
+					style="width: 200px" data-options="required:true" />
+				</td>
+			</tr>
+			<tr height="35">
+				<td valign="top" align="right">所属分类:</td>
+				<td>
+					<select id="producttree" class="easyui-combotree"
+					data-options="required:true" name="productType"
+					style="width: 200px;"></select>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+	var Address = [{ "value": "1", "text": "CHINA" }, { "value": "2", "text": "USA" }, { "value": "3", "text": "Koren" }];
+
+	function unitformatter(value, rowData, rowIndex) {
+	    if (value == 0) {
+	        return;
+	    }
+	 
+	    for (var i = 0; i < Address.length; i++) {
+	        if (Address[i].value == value) {
+	            return Address[i].text;
+	        }
+	    }
+	}
+	$(function() {
+		/**
+		 * Name 载入数据
+		 */
+		  var editRow = undefined;
+		 $('#dg').datagrid({
+			method:'get',
+		 	url : 'temp/datagrid.json',
+		 	rownumbers : true,
+		 	pageSize : 10,
+		 	pagePosition : 'bottom',
+		 	collapsible:true,  
+		 	striped: true,
+			// pageList:[10,20,30,40],    
+			pagination : true,
+			multiSort : true,
+			fitColumns : true,
+			fit : true,
+			columns : [ [
+			// { checkbox:false},
+			{
+				field : 'productid',
+				title : '商品代码',
+				width : 100,
+				sortable : true
+				 
+			}, 
+			{
+				field : 'productname',
+				title : '商品名称',
+				width : 180,
+				sortable : true,
+				// formatter: unitformatter,
+				editor: { type: 'combobox', options: { data: Address, valueField: "value", textField: "text" } }
+			}, 
+			{
+				field : 'fullname',
+				title : '全名',
+				width : 100
+			},
+			{
+				field : 'unitcost',
+				title : '规格型号',
+				width : 100
+				
+			}
+
+			] ],
+			onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },
+        onDblClickRow: function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#dg").datagrid('endEdit', editRow);
+            }
+ 
+            if (editRow == undefined) {
+                $("#dg").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },
+        onClickRow: function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#dg").datagrid('endEdit', editRow);
+ 
+            }
+ 
+        }
+		});
+
+
+		/**
+		 * Name 载入菜单树
+		 */
+		 $('#wu-category-tree').tree({
+		 	method : 'get',
+		 	url : 'temp/tree.json',
+		 	onContextMenu : function(e, node) {
+				//判断是否为根节点
+				if (node.text == "全部分类") {
+					$("#menu_edit").hide();
+					$("#menu_del").hide();
+				} else {
+					$("#menu_edit").show();
+					$("#menu_del").show();
+				}
+				e.preventDefault();
+				$(this).tree('select', node.target);
+				$('#mm').menu('show', {
+					left : e.pageX,
+					top : e.pageY
+				});
+
+			},
+			onAfterEdit:function(node){
+				var parentNode=$('#wu-category-tree').tree("getParent",node.target);
+				if(parentNode){
+					var data={id:node.id,text:node.text,parent:parentNode.id};
+					$.ajax({
+						url:'',
+						data:data,
+	 					success : function(data) {
+	//  						if (data) {
+	//  							$.messager.alert('信息提示', '删除成功！', 'info');
+	//  						} else {
+	//  							$.messager.alert('信息提示', '删除失败！', 'info');
+	//  						}
+	 					}
+					});
+					}else{
+						$.messager.alert('信息提示', '当前节点不可修改！', 'info')
+					}
+			}
+		});
+		});
+	//新增节点
+	function append() {
+		var t = $('#wu-category-tree');
+		var node = t.tree('getSelected');
+		var subNode = {
+			parent : (node ? node.target : null),
+			data : [ {
+				id : "",
+				text : '新增分类'
+			} ]
+		};
+		t.tree('append', subNode);
+		var sub = t.tree("find", "");
+		t.tree('beginEdit', sub.target);
+	}
+	//编辑节点
+	function editnode() {
+		var t = $('#wu-category-tree');
+		var node = t.tree('getSelected');
+		t.tree('beginEdit', node.target);
+	}
+
+	function confirm1() {
+		$.messager.confirm('消息提醒', '确认是否删除当前分类?', function(r) {
+			if (r) {
+				var node = $('#wu-category-tree').tree('getSelected');
+				$('#wu-category-tree').tree('remove', node.target);
+			}
+		});
+	}
+
+	/**
+	 * Name 添加记录
+	 */
+	 function addProduct() {
+	 	$('#wu-form').form('submit', {
+	 		url : '',
+	 		success : function(data) {
+	 			if (data) {
+	 				$.messager.alert('信息提示', '提交成功！', 'info');
+	 				$('#wu-dialog').dialog('close');
+	 			} else {
+	 				$.messager.alert('信息提示', '提交失败！', 'info');
+	 			}
+	 		}
+	 	});
+	 }
+
+	/**
+	 * Name 删除记录
+	 */
+	 function remove() {
+	 	var row = $('#dg').datagrid('getSelected');
+	 	if (row) {
+	 		$.messager.confirm('信息提示', '确定要删除该商品？', function(result) {
+	 			if (result) {
+	 				$.ajax({
+	 					url : '',
+	 					data : '',
+	 					success : function(data) {
+	 						if (data) {
+	 							$.messager.alert('信息提示', '删除成功！', 'info');
+	 						} else {
+	 							$.messager.alert('信息提示', '删除失败！', 'info');
+	 						}
+	 					}
+	 				});
+	 			}
+	 		});
+	 	} else {
+	 		$.messager.alert('信息提示', '请选择商品！', 'info');
+	 	}
+
+	 }
+
+	/**
+	 * Name 打开添加窗口
+	 */
+	 function openAdd() {
+	 	$('#wu-form').form('clear');
+	 	$('#producttree').combotree({
+	 		method : 'get',
+	 		url : 'temp/tree.json',
+	 		onClick : function(node) {
+	 			if (node.children) {
+	 				$('#producttree').combotree('clear');
+	 			}
+	 		}
+	 	});
+	 	$('#wu-dialog').dialog({
+	 		closed : false,
+	 		modal : true,
+	 		title : "新增商品",
+	 		buttons : [ {
+	 			text : '确定',
+	 			iconCls : 'icon-ok',
+	 			handler : addProduct
+	 		}, {
+	 			text : '取消',
+	 			iconCls : 'icon-cancel',
+	 			handler : function() {
+	 				$('#wu-dialog').dialog('close');
+	 			}
+	 		} ]
+	 	});
+	 }
+
+	/**
+	 * Name 打开修改窗口
+	 */
+	 function openEdit() {
+	 	var row = $('#dg').datagrid('getSelected');
+	 	if (row) {
+	 		$('#wu-form').form('clear');
+	 		$('#producttree').combotree({
+	 			method : 'get',
+	 			url : 'temp/tree.json',
+	 			onClick : function(node) {
+	 				console.info(node);
+	 				if (node.children) {
+	 					$('#producttree').combotree('clear');
+	 				}
+	 			},
+	 			onLoadSuccess : function() {
+					$('#producttree').combotree("setValue", row.productType);//这里写设置默认值，
+				}
+			});
+	 		$('#wu-form').form('load', {
+	 			productid : row.productid,
+	 			productname : row.productname,
+	 			fullname : row.fullname,
+	 			phone : row.phone,
+	 			unitcost : row.unitcost
+	 		});
+	 		$('#wu-dialog').dialog({
+	 			closed : false,
+	 			modal : true,
+	 			title : "修改商品",
+	 			buttons : [ {
+	 				text : '确定',
+	 				iconCls : 'icon-ok',
+	 				handler : addProduct
+	 			}, {
+	 				text : '取消',
+	 				iconCls : 'icon-cancel',
+	 				handler : function() {
+	 					$('#wu-dialog').dialog('close');
+	 				}
+	 			} ]
+	 		});
+	 	} else {
+	 		$.messager.alert('信息提示', '请选择商品！', 'info');
+	 	}
+	 }
+
+</script>

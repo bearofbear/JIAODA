@@ -1,0 +1,49 @@
+<style type="text/css">
+	.themeslist > div{
+		float: left;
+		width: 200px;
+		height: 200px;
+		margin: 0px 0px 35px 43px;
+		border: 1px solid #E0DFE0;
+		cursor: pointer;
+		text-align: center;
+		line-height: 200px;
+		text-shadow: 0px 1px 0px #e5e5ee;
+		border-radius: 10px;
+	}
+	.themeslist > div:hover{
+		transition:All 1s ease-in-out;    
+		-webkit-transition:All 1s ease-in-out;    
+		-moz-transition:All 1s ease-in-out;    
+		-o-transition:All 1s ease-in-out;}*:hover{transform:rotateY(360deg);    
+		-webkit-transform:rotateY(360deg);    
+		-moz-transform:rotateY(360deg);
+		-o-transform:rotateY(360deg);    
+		-ms-transform:rotateY(360deg);
+	}
+</style>
+<div style="padding:40px 15px 15px 0;" class="themeslist easyui-panel" data-options="fit:'true'" title="主题选择">
+	<div style="background:linear-gradient(to bottom,#EFF5FF 0,#E0ECFF 100%)" rel="default">天空蓝</div>
+	<div style="background-color:#FFFFFF" rel="metro">钻石白</div>
+	<div style="background:linear-gradient(to bottom,#F8F8F8 0,#eeeeee 100%)" rel="gray">骑士灰</div>
+	<div style="background:linear-gradient(to bottom,#ffffff 0,#F2F2F2 100%)" rel="bootstrap">象牙白</div>
+	<div style="background:linear-gradient(to bottom,#454545 0,#383838 100%)" rel="black">深空黑</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var href = $('#theme').attr('href');
+		var lhref = href.substr(0, 20);
+		var rhref = href.substr(27,30);
+		
+
+		$('.themeslist > div').each(function(){
+			$(this).click(function(){
+				var local = $(this).attr('rel');
+				$('#theme').attr('href',lhref+local+rhref);
+
+			})
+		})
+
+	})
+
+</script>

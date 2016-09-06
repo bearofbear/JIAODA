@@ -1,0 +1,89 @@
+[
+    {
+        "id": 1,
+        "text": "商品分类",
+        "children": [
+            {
+                "id": 11,
+                "text": "粮油"
+            },
+            {
+                "id": 12,
+                "text": "调料",
+                "children": [
+                    {
+                        "id": 121,
+                        "text": "调料1"
+                    },
+                    {
+                        "id": 122,
+                        "text": "调料2",
+                        "attributes": {
+                            "p1": "Custom Attribute1",
+                            "p2": "Custom Attribute2"
+                        }
+                    },
+                    {
+                        "id": 123,
+                        "text": "调料3"
+                    },
+                    {
+                        "id": 124,
+                        "text": "调料4",
+                        "checked": true
+                    }
+                ]
+            },
+            {
+                "id": 13,
+                "text": "野味类",
+                "children": [
+                    {
+                        "id": 131,
+                        "text": "野味类1"
+                    }
+                ]
+            },
+            {
+                "id": 14,
+                "text": "冻品",
+                "children": [
+                    {
+                        "id": 141,
+                        "text": "冻品1"
+                    },
+                    {
+                        "id": 142,
+                        "text": "冻品2"
+                    }
+                ]
+            },
+            {
+                "id": 15,
+                "text": "蛋类"
+            },
+            {
+                "id": 16,
+                "text": "饮品",
+                "children": [
+                    {
+                        "id": 161,
+                        "text": "饮品1"
+                    },
+                    {
+                        "id": 162,
+                        "text": "饮品2"
+                    }
+                ]
+            },
+            {
+                "id": 17,
+                "text": "水果类"
+            },
+            {
+                "id": 18,
+                "text": "面制品及面包"
+            }
+        ]
+    }
+]

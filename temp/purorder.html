@@ -1,0 +1,533 @@
+<div class="easyui-layout" data-options="fit:true">
+	<!-- <h3 class="gloab-font">采购订单</h3> -->
+
+
+
+	
+	<table id="order" class="easyui-datagrid"  title="订单信息" style="height: 500px;"></table>
+	
+	<div id="wu-purbar">
+		<div class="wu-toolbar-button">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="orderopenAdd()" plain="true">新增商品订单</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="ordermenuAdd()" plain="true">新增菜谱订单</a>
+			<a href="#"	class="easyui-linkbutton" iconCls="icon-edit" onclick="orderopenEdit()" plain="true">修改订单</a>
+			<a href="#"	class="easyui-linkbutton" iconCls="icon-lock" onclick="orderCreate()"	plain="true">生成订单</a>
+			<a href="#"	class="easyui-linkbutton" iconCls="icon-undo" onclick="orderCancel()"	plain="true">订单撤销</a>
+			<a href="#"	class="easyui-linkbutton" iconCls="icon-ok" onclick="orderCancelConfirm()"	plain="true">撤销确认</a>
+		</div>
+
+		<!-- 搜索筛选 -->
+		<table width="100%" border="0" cellspacing="0" class="tablemain">
+			<tr>
+				<td width="8%"><label class="searh-line">供应商：</label></td>
+				<td width="20%" height="37"><input class="easyui-searchbox"
+					style="width: 200px">
+				</td>
+				<td width="10%">订单日期：</td>
+				<td width="15%"><input id="codr" class="easyui-datebox"
+					style="width: 200px"></td>
+				
+				<td width="24%"><a href="#" class="easyui-linkbutton"
+					iconcls="icon-search" onclick="search()">搜索</a>
+				</td>
+			</tr>
+			<tr>
+				<td>订单编号：</td>
+				<td height="37" colspan="5"><input class="easyui-textbox"
+					style="width: 200px" /></td>
+			</tr>
+		</table>
+
+	</div>
+
+
+</div>
+
+
+<!-- 新增订单 -->
+<div id="addorders" class="easyui-window" title="Modal Window"
+	data-options="modal:true,closed:true,iconCls:'icon-save'"
+	style="width: 500px; height: auto; padding: 10px;">
+	<form action="" id="wuorders" method="post">
+		<div style="margin-bottom: 20px">
+			<div>订单日期:</div>
+			<input class="easyui-datetimebox" name="orderTime" id="orderTime"
+				readonly="readonly" style="width: 100%; height: 32px">
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>供应商:</div>
+			<select class="easyui-combobox" name="productname"
+				style="width: 100%">
+				<option value="AL">商品1</option>
+				<option value="AK">商品12</option>
+				<option value="AZ">商品13</option>
+				<option value="AR">商品14</option>
+				<option value="CA">商品15</option>
+			</select>
+		</div>
+
+		<div style="margin-bottom: 20px">
+			<div>商品名称:</div>
+			<select class="easyui-combobox" name="shopname" style="width: 100%">
+				<option value="AL">商品1</option>
+				<option value="AK">商品12</option>
+				<option value="AZ">商品13</option>
+				<option value="AR">商品14</option>
+				<option value="CA">商品15</option>
+			</select>
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>数量:</div>
+			<input id="count" type="number" name="count" class="mynumber"
+				style="width: 100%; margin-left: 0px; padding-top: 2px; padding-bottom: 2px;"
+				oninput="changeTatalMoney()">
+		</div>
+		<div>
+			<div>
+				单价:<span id="singleMuch"  name="singleMuch" style="margin-left: 10px; font-size: 15px;"></span>元
+			</div>
+
+		</div>
+		<div>
+			<div>
+				总价:<span id="totalmuch"
+					style="margin-left: 10px; font-size: 15px; font-weight: bold;">0</span>元
+			</div>
+
+		</div>
+
+
+	</form>
+
+</div>
+<div id="addmenuorders" class="easyui-window" data-options="modal:true,closed:true,iconCls:'icon-save'"
+	style="width: 700px; height: auto; padding: 10px;">
+	<form action="" id="ordermenuForm" method="post">
+		<div style="margin-bottom: 20px">
+			<div>订单日期:</div>
+			<input class="easyui-datetimebox" name="ordermenuTime" id="orderMenuTime"
+				disabled="disabled" style="width: 100%; height: 32px">
+		</div>
+
+		<div style="margin-bottom: 20px">
+			<div>菜单名称:</div>
+			<select id="menuName" class="easyui-combobox" name="shopname" style="width: 100%">
+			</select>
+		</div>
+		<div style="margin-bottom: 20px">
+			<table id="orderList" >
+			</table>
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>数量:</div>
+			<input id="menumuch" type="number" name="much" class="mynumber" 
+				style="width: 100%; margin-left: 0px; padding-top: 2px; padding-bottom: 2px;"
+				oninput="changeOrderNum()">
+		</div>
+	</form>
+
+</div>
+<script type="text/javascript">
+$(function(){
+	loadData('temp/order.json');
+	var d = new Date();
+	var str = d.getFullYear() + "-" + (d.getMonth() + 1) + "-"
+			+ d.getDate();
+	$('#codr').attr('value', str);
+});
+function changeOrderNum(){
+	var count=$("#menumuch").val();
+	var rows=$("#orderList").datagrid('getRows');
+	for (var i = 0; i < rows.length; i++) {
+		var total=count*rows[i].weight;
+		rows[i].count=total.toFixed(0);
+		rows[i].total=rows[i].count*rows[i].price;
+	}
+	$("#orderList").datagrid("loadData",rows);
+}
+var j=0;
+
+function ordermenuAdd(){
+	$('#ordermenuForm').form('clear');
+	$("#orderMenuTime").datetimebox({
+		value : formatDate(new Date()),
+	});
+	$("#menumuch").val("");
+	if(j!=0){
+		$("#orderList").datagrid("loadData",[]);
+	}
+	$("#menuName").combobox({
+		method:'get',
+		url:'temp/menuList.json',
+		valueField:'id', 
+		textField:'name',
+		required:true,
+		onSelect:function(record){
+			j++;
+			$("#orderList").datagrid({
+				method : 'get',
+				url:"temp/goodsList.json",
+				rownumbers:true,
+				singleSelect:true,
+				onClickCell: onClickCell,
+// 				onClickRow:onClickRow,
+				columns : [[ {
+					field : 'text',
+					title : '商品名称',
+					width : 100
+				},
+				{
+					field : 'weight',
+					title : '分量',
+					width : 100
+				},
+				{
+					field : 'price',
+					title : '单价',
+					width : 100
+				},
+				{
+					field : 'count',
+					title : '订购数量',
+					width : 100,
+					
+					editor:{
+						type:'text',
+						options: { required: true } 
+					}
+				},
+				{
+					field : 'total',
+					title : '总价',
+					width : 100,
+					editor:{
+						type:'text',
+					}
+				},
+				{
+					field : 'giver',
+					title : '供应商',
+					width : 100,
+					editor:{
+							type:'combobox',
+							options:{
+								valueField:'id',
+								textField:'name',
+								method:'get',
+								url:'temp/menuList.json',
+								required:true
+							}
+					}
+				}
+				
+				]]
+			});
+		}
+	});
+	$('#addmenuorders').dialog({
+		closed : false,
+		modal : true,
+		title : "新增菜谱订单",
+		buttons : [ {
+			text : '确定',
+			iconCls : 'icon-ok',
+			handler : addProduct
+		}, {
+			text : '取消',
+			iconCls : 'icon-cancel',
+			handler : function() {
+				$('#addmenuorders').dialog('close');
+			}
+		} ]
+	});
+}
+//加载页面数据
+function loadData(url){
+	$('#order').datagrid({
+		method : 'get',
+		url : url,
+		fitColumns : true,
+		collapsible : true,
+		toolbar:'#wu-purbar',
+		fit : true,
+		rownumbers : true,
+	 	pageSize : 10,
+	 	pagePosition : 'bottom',
+		// pageList:[10,20,30,40],    
+		pagination : true,
+		columns : [ [{
+			field : 'check',
+			checkbox:true
+		}, {
+			field : 'shopname',
+			title : '商品名称',
+			width : 100
+		},{
+			field : 'ordernum',
+			title : '订单编号',
+			width : 100,
+			sortable : true
+		}, {
+			field : 'timeup',
+			title : '订单日期',
+			width : 100,
+			sortable : true
+		}, {
+			field : 'productname',
+			title : '供应商',
+			width : 180,
+			sortable : true
+		}, {
+			field : 'count',
+			title : '数量',
+			width : 100
+		}, {
+			field : 'money',
+			title : '单价',
+			width : 100,
+		}, {
+			field : 'totalmuch',
+			title : '总价',
+			width : 100
+		}, ] ]
+	});
+}
+	function changeTatalMoney() {
+		var total = ($("#count").val()) * ($("#singleMuch").text());
+		$("#totalmuch").text(total);
+
+	}
+	//新增商品订单
+	function orderopenAdd() {
+		$('#wuorders').form('clear');
+		$("#orderTime").datetimebox({
+			value : formatDate(new Date()),
+		});
+		$("#count").val("");
+		$("#singleMuch").text("");
+		$("#totalmuch").text(0);
+		$('#addorders').dialog({
+			closed : false,
+			modal : true,
+			title : "新增订单",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : addProduct
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#addorders').dialog('close');
+				}
+			} ]
+		});
+	}
+
+	//订单生成
+	function orderCreate(){
+		var rows = $('#order').datagrid('getChecked');
+		if(rows.length==0){
+			$.messager.alert('信息提示','至少需要选择一行数据','info');
+		}else{
+			$.messager.confirm('信息提示','您确定发送所选订单到对应供应商吗？',function(){
+				console.info(rows);
+				$.ajax({
+					method:'post',
+					url:'',
+					data:{data:rows},
+					success:function(data){
+						alert('订单已发送至供应商');
+					}
+				});
+			});
+		}
+	}
+
+	//订单撤销
+	function orderCancel(){
+		var rows = $('#order').datagrid('getChecked');
+		if(rows.length==0){
+			$.messager.alert('信息提示','至少需要选择一个订单','info');
+		}else if(rows.length==1){
+			$.messager.confirm('信息提示','您确定撤销所选订单吗？',function(){
+				console.info(rows);
+				$.ajax({
+					method:'post',
+					url:'',
+					data:{data:rows},
+					success:function(data){
+						alert('订单已发送至供应商');
+					}
+				});
+			});
+		}else{
+			$.messager.alert('信息提示','只能撤销一个订单','warning');
+		}
+	}
+	
+	//供应商订单撤销确认
+	function orderCancelConfirm(){
+		var rows = $('#order').datagrid('getChecked');
+		if(rows.length==0){
+			$.messager.alert('信息提示','至少需要选择一个订单','info');
+		}else if(rows.length==1){
+			$.messager.confirm('信息提示','您确定同意项目点撤销所选订单吗？',function(){
+				console.info(rows);
+				$.ajax({
+					method:'post',
+					url:'',
+					data:{data:rows},
+					success:function(data){
+						alert('订单已撤销');
+					}
+				});
+			});
+		}else{
+			$.messager.alert('信息提示','只能选择一个订单','warning');
+		}
+	}
+	function addProduct() {
+		$('#wuorders').form('submit', {
+			url : '',
+			success : function(data) {
+				if (data) {
+					$.messager.alert('信息提示', '提交成功！', 'info');
+					$('#addorders').dialog('close');
+				} else {
+					$.messager.alert('信息提示', '提交失败！', 'info');
+				}
+			}
+		});
+	}
+
+	// 选择修改
+	function orderopenEdit() {
+		var rows = $('#order').datagrid('getChecked');
+		if (rows.length==1) {
+			var row=rows[0];
+			$('#wuorders').form('clear');
+
+			$('#wuorders').form('load', {
+				orderTime : row.timeup,
+				productname : row.productname,
+				shopname : row.shopname,
+				count : row.count
+			});
+			
+			$("#singleMuch").text(row.money);
+			$("#totalmuch").text(row.count*row.money);
+			$('#addorders').dialog({
+				closed : false,
+				modal : true,
+				title : "修改商品",
+				buttons : [ {
+					text : '确定',
+					iconCls : 'icon-ok',
+					handler : addProduct
+				}, {
+					text : '取消',
+					iconCls : 'icon-cancel',
+					handler : function() {
+						$('#addorders').dialog('close');
+					}
+				} ]
+			});
+		}else if(rows.length>1){
+			$.messager.alert('信息提示', '只能选择一个订单！', 'warning');
+		}else {
+			$.messager.alert('信息提示', '请选择订单！', 'warning');
+		}
+	}
+	function formatDate(date) {
+		var y = date.getFullYear();
+		var m = date.getMonth() + 1;
+		var d = date.getDate();
+		var h = date.getHours();
+		var mm = date.toTimeString();
+		var dateTime = y + "-" + (m < 10 ? ("0" + m) : m) + "-"
+				+ (d < 10 ? ("0" + d) : d) + ' ' + mm;
+		return dateTime;
+	}
+</script>
+<script type="text/javascript">
+//编辑每种商品的数量，价格自动计算
+var editIndex = undefined;
+function onClickCell(rowIndex, field, value){
+	if(field=="count"){
+		$('#orderList').datagrid('endEdit', editIndex);
+		$('#orderList').datagrid('beginEdit', rowIndex);
+		editIndex=rowIndex;
+		var countEdt = $('#orderList').datagrid('getEditor', {index:rowIndex,field:'count'});
+		var totalEdt = $('#orderList').datagrid('getEditor', {index:rowIndex,field:'total'});
+		totalEdt.target.prop("readonly",true);
+		console.info(totalEdt);
+		var count=$(countEdt.target);
+		count.attr("type","number");
+		count.bind("input",function(){
+			var cur=$(this).val();
+			var row = $('#orderList').datagrid('getSelected');
+			$(totalEdt.target).val(cur*row.price);
+		});
+	}else{
+		return ;
+	}	
+}
+// 		$.extend($.fn.datagrid.methods, {
+// 			editCell: function(jq,param){
+// 				return jq.each(function(){
+// 					var opts = $(this).datagrid('options');
+// 					var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+// 					for(var i=0; i<fields.length; i++){
+// 						var col = $(this).datagrid('getColumnOption', fields[i]);
+// 						col.editor1 = col.editor;
+// 						if (fields[i] != param.field){
+// 							col.editor = null;
+// 						}
+// 					}
+// 					$(this).datagrid('beginEdit', param.index);
+// 					for(var i=0; i<fields.length; i++){
+// 						var col = $(this).datagrid('getColumnOption', fields[i]);
+// 						col.editor = col.editor1;
+// 					}
+// 				});
+// 			}
+// 		});
+		
+		var editIndex = undefined;
+		function endEditing(){
+			if (editIndex == undefined){return true}
+			if ($('#orderList').datagrid('validateRow', editIndex)){
+				$('#orderList').datagrid('endEdit', editIndex);
+				editIndex = undefined;
+				return true;
+			} else {
+				return false;
+			}
+		}
+// 		var lastIndex;
+// 		function onClickCell(index, field){
+// 			if (endEditing()){
+// 				$('#orderList').datagrid('selectRow', index)
+// 						.datagrid('editCell', {index:index,field:field});
+// 				editIndex = index;
+// 			}
+// 		}
+	</script>
+<style>
+.mynumber {
+	position: relative;
+	border: 1px solid #95B8E7;
+	background-color: #fff;
+	vertical-align: middle;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+}
+</style>
+

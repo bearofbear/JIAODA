@@ -1,0 +1,25 @@
+{
+	"total":20,
+	"rows":[
+	{"timeup":"2015-12-26","productname":"花花超市","coder":"20102010","shopname":"好吃点","much":"5吨","onlne":121,"allmuch":"300","ordernum":"1"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":122,"allmuch":"EST-10","ordernum":"2"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"3"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":11,"allmuch":"EST-10","ordernum":"4"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"5"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"6"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"7"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"8"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"9"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"10"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"11"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"12"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"13"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"14"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"15"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"16"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"17"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"18"},
+	{"timeup":"FI-SW-01","productname":"金龙鱼","coder":"20102010","shopname":"P","much":"5L","online":121,"allmuch":"EST-1","ordernum":"19"},
+	{"timeup":"K9-DL-01","productname":"大米","coder":"20102010","shopname":"P","much":"20斤","online":121,"allmuch":"EST-10","ordernum":"20"}
+	]
+}

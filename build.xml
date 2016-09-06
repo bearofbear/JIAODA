@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jiaoda" default="copy" basedir=".">
+	<description>交大进销存系统</description>
+	<tstamp></tstamp>
+	<target name="copy">
+		<copy todir="/usr/local/apache-tomcat-8.0.24/webapps/jiaoda/">
+			<fileset dir="${basedir}"/>
+		</copy>
+	</target>
+</project>

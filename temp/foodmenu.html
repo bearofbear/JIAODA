@@ -1,0 +1,413 @@
+<div class="easyui-layout" data-options="fit:true">
+	<div data-options="region:'west',border:true,split:true," title="菜单分类"
+	style="width: 200px; padding: 5px;">
+	<ul id="foodmenu-tree" class="easyui-tree wu-side-tree">
+	</ul>
+</div>
+<div data-options="region:'center',border:false">
+	<div id="wu-foodbar">
+		<div class="wu-toolbar-button">
+			<a href="#"	class="easyui-linkbutton" iconCls="icon-add" onclick="addMenu()" plain="true">新增菜单</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="editMenu()" plain="true">修改菜单</a>
+			<a	href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="removeMenu()" plain="true">删除菜单</a>
+		</div>
+		<div style="margin: 10px 0;"></div>
+	</div>
+
+
+	<!-- End of toolbar -->
+	<table id="foodmenuList" class="easyui-datagrid" title="菜单列表"
+	data-options="iconCls:'icon-ok',singleSelect:true,collapsible:true,toolbar:'#wu-foodbar'">
+	</table>
+
+</div>
+</div>
+
+<div id="foodmenu-mm" class="easyui-menu" style="width: 120px;">
+	<div onclick="appendMenu()" data-options="iconCls:'icon-add'">新增</div>
+	<div id="menu_edit" onclick="editMenuNode()" data-options="iconCls:'icon-edit'">编辑</div>
+	<div id="menu_del" onclick="confirmMenu()" data-options="iconCls:'icon-remove'">删除</div>
+</div>
+
+<div id="menu-dialog" class="easyui-dialog"
+data-options="closed:true,iconCls:'icon-save'"
+style="width: 580px; height: 500px; padding: 20px;">
+<form id="menu-form" method="post">
+
+	<table>
+		<tr height="35">
+			<td width="70" align="right">菜单名称:</td>
+			<td><input type="hidden" name="id"><input type="text" name="menuname" class="easyui-textbox"
+				style="width: 200px" data-options="required:true" />
+			</td>
+		</tr>
+		<tr height="35">
+			<td width="70" align="right">菜单分类:</td>
+			<td>
+			<select id="menuTypetree" data-options="required:true" name="menuType"
+					style="width: 200px;"></select>
+			</td>
+		</tr>
+		<tr height="35">
+			<td align="right">主料:</td>
+			<td><a href="#" class="easyui-linkbutton"
+					data-options="iconCls:'icon-add'" onclick="addMain('mainTable','mainFood','mainProc','mainWeight',0)">增加主料</a></td>
+		</tr>
+		<tr height="35">
+		  <td align="right">&nbsp;</td>
+		  <td><table id="mainTable">
+				<tr>
+					<td>
+			<select id="mainProc" name="mainFood[0].mainProc"
+				class="easyui-combobox" style="width: 200px"
+				data-options="required:true,editable:false"></select>
+			</td>
+			<td>
+				<label>分量：</label><input name="mainFood[0].mainWeight" class="easyui-numberbox" data-options="required:true">
+			</td>
+				</tr>
+			</table></td>
+	  </tr>
+		<tr>
+			<td>
+				
+			</td>
+            
+		</tr>
+		<tr height="35">
+			<td align="right">辅料:</td>
+			<td><a href="#" class="easyui-linkbutton"
+					data-options="iconCls:'icon-add'" onclick="addMain('assistTable','assistFood','assistProc','assistWeight',1)">增加辅料</a></td>
+		</tr>
+		<tr height="35">
+		  <td align="right">&nbsp;</td>
+		  <td><table id="assistTable">
+				<tr>
+					<td>
+			<select id="assistProc" name="assistFood[0].assistProc"
+				class="easyui-combobox" style="width: 200px"
+				data-options="required:true,editable:false"></select>
+			</td>
+			<td>
+				<label>分量：</label><input name="assistFood[0].assistWeight" class="easyui-numberbox" data-options="required:true">
+			</td>
+				</tr>
+			</table></td>
+	  </tr>
+		<tr>
+			<td>
+				
+			</td>
+            
+		</tr>
+	</table>
+</form>
+<div></div>
+</div>
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+var mainCount=0;
+var assistCount=0;
+	$(function() {
+		/**
+		 * Name 载入数据
+		 */
+		 $('#foodmenuList').datagrid({
+		 	method:'get',
+		 	url : 'temp/foodmenu.json',
+		 	rownumbers : true,
+		 	pageSize : 10,
+		 	pagePosition : 'bottom',
+			// pageList:[10,20,30,40],    
+			pagination : true,
+			multiSort : true,
+			fitColumns : true,
+			fit : true,
+			columns : [ [
+			// { checkbox:false},
+			{
+				field : 'productid',
+				title : '编码',
+				width : 100,
+				sortable : true
+			}, {
+				field : 'productname',
+				title : '菜单名称',
+				width : 180,
+				sortable : true
+			}
+
+			] ]
+		});
+		/**
+		 * Name 载入菜单树
+		 */
+		 $('#foodmenu-tree').tree({
+		 	method : 'get',
+		 	url : 'temp/tree.json',
+		 	onContextMenu : function(e, node) {
+				//判断是否为根节点
+				if (node.text == "全部分类") {
+					$("#menu_edit").hide();
+					$("#menu_del").hide();
+				} else {
+					$("#menu_edit").show();
+					$("#menu_del").show();
+				}
+				e.preventDefault();
+				$(this).tree('select', node.target);
+				$('#foodmenu-mm').menu('show', {
+					left : e.pageX,
+					top : e.pageY
+				});
+
+			},
+			//更新节点
+			onAfterEdit:function(node){
+				var parentNode=$('#foodmenu-tree').tree("getParent",node.target);
+				if(parentNode){
+					var data={id:node.id,text:node.text,parent:parentNode.id};
+					$.ajax({
+						url:'',
+						data:data,
+	 					success : function(data) {
+	//  						if (data) {
+	//  							$.messager.alert('信息提示', '删除成功！', 'info');
+	//  						} else {
+	//  							$.messager.alert('信息提示', '删除失败！', 'info');
+	//  						}
+	 					}
+					});
+					}else{
+						$.messager.alert('信息提示', '当前节点不可修改！', 'info')
+					}
+			}
+		});
+		});
+	//新增节点
+	function appendMenu() {
+		var t = $('#foodmenu-tree');
+		var node = t.tree('getSelected');
+		var subNode = {
+			parent : (node ? node.target : null),
+			data : [ {
+				id : "",
+				text : '新增分类',
+				parent:node.id
+			} ]
+		};
+		t.tree('append', subNode);
+		var sub = t.tree("find", "");
+		t.tree('beginEdit', sub.target);
+	}
+	//编辑节点
+	function editMenuNode() {
+		var t = $('#foodmenu-tree');
+		var node = t.tree('getSelected');
+		t.tree('beginEdit', node.target);
+	}
+
+	//删除节点
+	function confirmMenu() {
+		$.messager.confirm('消息提醒', '确认是否删除当前分类?', function(r) {
+			if (r) {
+				var node = $('#foodmenu-tree').tree('getSelected');
+				var data={id:node.id};
+				$.ajax({
+					url:'',
+					data:data,
+ 					success : function(data) {
+//  						if (data) {
+//  							$.messager.alert('信息提示', '删除成功！', 'info');
+//  						} else {
+//  							$.messager.alert('信息提示', '删除失败！', 'info');
+//  						}
+							$('#foodmenu-tree').tree('remove',node.target);
+ 					}
+			});
+		}
+	});
+	}
+	/**
+	 * Name 提交菜单
+	 */
+	 function submitMenu() {
+	 	$('#menu-form').form('submit', {
+	 		url : 'addFoodMenu',
+	 		success : function(data) {
+	 			if (data) {
+	 				$.messager.alert('信息提示', '提交成功！', 'info');
+	 				$('#menu-dialog').dialog('close');
+	 			} else {
+	 				$.messager.alert('信息提示', '提交失败！', 'info');
+	 			}
+	 		}
+	 	});
+	 }
+
+
+	//增加主料或者辅料
+	function addMain(obj,food,mainName,weight,flag){
+		var index=0;
+		if(flag==0){
+			index=++mainCount;
+		}else{
+			index=++assistCount;
+		}
+		var tr=$("<tr class='clear'></tr>");
+		var td1=$("<td></td>");
+		var td2=$("<td></td>");
+		var td3=$("<td></td>");
+		var select=$("<select></select>");
+		select.css("width","200px");
+		select.attr("name",food+"["+index+"]."+mainName);
+		var label=$("<lalbel></label>");
+		label.text("分量：");
+		var input=$("<input>");
+		input.attr("name",food+"["+index+"]."+weight);
+		var delBtn=$("<a></a>");
+		td1.append(select);
+		td2.append(label);
+		td2.append(input);
+		td3.append(delBtn);
+		tr.append(td1);
+		tr.append(td2);
+		tr.append(td3);
+		$("#"+obj).append(tr);
+		select.combobox({
+			method:'get',
+			url:'temp/goods.json',
+			valueField : 'id',
+	 		textField : 'text',
+	 		editable:false,
+	 		required:true
+		});
+		input.numberbox({
+			required:true
+		});
+		delBtn.linkbutton({
+			iconCls:'icon-cancel'
+		});
+		delBtn.click(function(){
+			tr.remove();
+		});
+	}
+	
+	function addMenu() {
+		 mainCount=0;
+		 assistCount=0;
+	 	$("#mainProc").combobox({
+	 		method : 'get',
+	 		url : 'temp/goods.json',
+	 		valueField : 'id',
+	 		textField : 'text',
+	 	});
+	 	$("#assistProc").combobox({
+	 		method : 'get',
+	 		url : 'temp/goods.json',
+	 		valueField : 'id',
+	 		textField : 'text',
+	 	});
+	 	$('#menuTypetree').combotree({
+	 		method : 'get',
+	 		url : 'temp/tree.json',
+	 		onClick : function(node) {
+	 			if (node.children) {
+	 				$('#menuTypetree').combotree('clear');
+	 			}
+	 		},
+	 		onLoadSuccess : function() {
+				$('#menuTypetree').combotree("clear");//这里写设置默认值，
+			}
+	 	});
+	 	$("#menu-form").form("clear");
+	 	$(".clear").remove();
+	 	$('#menu-dialog').dialog({
+	 		closed : false,
+	 		modal : true,
+	 		title : "新增菜单",
+	 		resizable: true,
+	 		buttons : [ {
+	 			text : '确定',
+	 			iconCls : 'icon-ok',
+	 			handler : submitMenu
+	 		}, {
+	 			text : '取消',
+	 			iconCls : 'icon-cancel',
+	 			handler : function() {
+	 				$('#menu-dialog').dialog('close');
+	 			}
+	 		} ]
+	 	});
+	 }
+	/**
+	 * Name 打开修改窗口
+	 */
+	 function editMenu() {
+	 	var row = $('#foodmenuList').datagrid('getSelected');
+	 	console.info(row);
+	 	if (row) {
+	 		$('#menu-form').form('clear');
+	 		$('#menuTypetree').combotree({
+	 			method : 'get',
+	 			url : 'temp/tree.json',
+	 			onClick : function(node) {
+	 				if (node.children) {
+	 					$('#menuTypetree').combotree('clear');
+	 				}
+	 			},
+	 			onLoadSuccess : function() {
+					$('#menuTypetree').combotree("setValue", row.menuType);//这里写设置默认值，
+				}
+			});
+	 		$('#menu-form').form('load', {
+	 			id : row.productid,
+	 			menuname : row.productname
+	 		});
+	 		$('#menu-dialog').dialog({
+	 			closed : false,
+	 			modal : true,
+	 			title : "修改商品",
+	 			buttons : [ {
+	 				text : '确定',
+	 				iconCls : 'icon-ok',
+	 				handler : submitMenu
+	 			}, {
+	 				text : '取消',
+	 				iconCls : 'icon-cancel',
+	 				handler : function() {
+	 					$('#menu-dialog').dialog('close');
+	 				}
+	 			} ]
+	 		});
+	 	} else {
+	 		$.messager.alert('信息提示', '请选择商品！', 'info');
+	 	}
+	 }
+	 /**
+		 * Name 删除记录
+		 */
+		 function removeMenu() {
+		 	var row = $('#foodmenuList').datagrid('getSelected');
+		 	if (row) {
+		 		$.messager.confirm('信息提示', '确定要删除该商品？', function(result) {
+		 			if (result) {
+		 				$.ajax({
+		 					url : '',
+		 					data : '',
+		 					success : function(data) {
+		 						if (data) {
+		 							$.messager.alert('信息提示', '删除成功！', 'info');
+		 						} else {
+		 							$.messager.alert('信息提示', '删除失败！', 'info');
+		 						}
+		 					}
+		 				});
+		 			}
+		 		});
+		 	} else {
+		 		$.messager.alert('信息提示', '请选择商品！', 'info');
+		 	}
+
+		 }
+</script>

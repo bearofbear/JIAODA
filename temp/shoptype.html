@@ -1,0 +1,97 @@
+<div class="easyui-layout">
+<div style="padding:5px;background:#fafafa;width:100%;margin-bottom:15px;font-family:微软雅黑">
+		<h1>分类管理</h1>
+	</div>
+	<ul id="wu-shop-tree" class="easyui-tree wu-side-tree" >
+    </ul>
+</div>
+
+<div id="mm" class="easyui-menu" style="width: 120px;">
+            <div onclick="append()" data-options="iconCls:'icon-add'">
+                新增</div>
+            <div id="menu_edit" onclick="editnode()" data-options="iconCls:'icon-edit'">
+                编辑</div>
+            <div id="menu_del" onclick="confirm1()" data-options="iconCls:'icon-remove'">
+                删除</div>
+            <div class="menu-sep">
+            </div>
+            <div onclick="expand()">
+                展开</div>
+            <div onclick="collapse()">
+                收起</div>
+</div>
+
+<script type="text/javascript">
+	/**
+	* Name 载入菜单树
+	*/
+	$('#wu-shop-tree').tree({
+	 	method: 'get',
+	 	url:'temp/tree.json',
+	 	
+
+	 	onContextMenu: function (e, node) {
+                //判断是否为根节点
+                if (node.text == "全部分类") {
+                    $("#menu_edit").hide();
+                    $("#menu_del").hide();
+                } else {
+                    $("#menu_edit").show();
+                    $("#menu_del").show();
+                }
+                e.preventDefault();
+                $(this).tree('select', node.target);
+                $('#mm').menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+
+         }
+
+	 });
+
+	     //新增节点
+		    function append() {
+		        var t = $('#wu-shop-tree');
+		        var node = t.tree('getSelected');
+		        var subNode={
+			            parent: (node ? node.target : null),
+			            data: [{
+			                id: "",
+			                text: '新增分类'
+			            }]
+			        };
+		       t.tree('append', subNode);
+		       var sub=t.tree("find","");
+		        t.tree('beginEdit', sub.target);
+		    }
+		    //编辑节点
+		    function editnode() {
+		        var t = $('#wu-shop-tree');
+		        var node = t.tree('getSelected');
+		        t.tree('beginEdit', node.target);
+		    }
+		    //收起
+		    function collapse() {
+		        var node = $('#wu-shop-tree').tree('getSelected');
+		        $('#wu-shop-tree').tree('collapse', node.target);
+		    }
+		    //展开
+		    function expand() {
+		        var node = $('#wu-shop-tree').tree('getSelected');
+		        $('#wu-shop-tree').tree('expand', node.target);
+		    }
+
+		    function confirm1(){
+			$.messager.confirm('消息提醒', '确认是否删除当前分类?', function(r){
+				if (r){
+					var node = $('#wu-shop-tree').tree('getSelected');
+		        	$('#wu-shop-tree').tree('remove', node.target);
+				}
+			});
+			}
+
+
+
+	
+</script>

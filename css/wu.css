@@ -1,0 +1,123 @@
+/*-------------------------------------------------------
+ All Rights Reserved, Copyright (C) 2013, Wuyeguo, Ltd.
+-------------------------------------------------------*/
+
+body { font:12px/1.2em Microsoft YaHei;}
+
+a,
+a:link { color:#000; text-decoration:none; outline:none;}
+a:hover,
+a:focus { text-decoration:none; color:#39f;}
+
+.pd3 { padding:3px;}
+.pd5 { padding:5px;}
+.pd10 { padding:10px;}
+
+label,
+button,
+input,
+select,
+textarea { font-size:12px; vertical-align: middle;}
+
+input,
+button,
+select,
+textarea { font:12px/1.2em Microsoft YaHei;}
+
+select,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input[type="radio"],
+input[type="checkbox"] { cursor: pointer;}
+
+.tabs-tool { border-top:0;}
+.wu-text,
+.wu-textarea { padding:3px; border:1px #95b8e7 solid; width:260px;}
+.wu-text { height:14px; line-height:14px; }
+
+.wu-header { height:55px; position:relative; z-index:0; overflow:hidden; border-bottom:1px #95b8e7 solid; 
+	background:url(../images/bg_header_2.jpg) bottom repeat-x;
+	/*background: -webkit-gradient(linear,0% 0%, 0% 100%, from(#0AA5F2), to(#9EC2FF), color-stop(0.5,#3DC2F2));
+	background: -moz-linear-gradient(0% 0% 100deg, #0AA5F2,#9EC2FF, #3DC2F2 50%);*/
+
+}
+
+.wu-header-left { position:absolute; z-index:1; left:15px; top:0;}
+.wu-header-left h1 { font:20px/20px Verdana; color:#fff;}
+.wu-header-right { position:absolute; z-index:1; right:166px; top:0; color:#fff; text-align:right;}
+.wu-header-right p { line-height:0.7em;}
+.wu-header-right a { color:#fff; margin:0 5px;}
+.wu-header-logo{
+	position:absolute;
+	right: 5px;
+	top: 0 
+}
+.wu-sidebar { width:160px;}
+.wu-side-tree .tree-node { padding:3px 0px; }
+.wu-side-tree a { display:block;}
+.wu-side-tree .tree-node-selected { padding:2px 0; border:1px #fade23 solid;}
+
+.wu-toolbar-button,
+.wu-toolbar-search { padding:3px 5px;}
+
+.wu-footer { height:20px; padding:5px; text-align:center; overflow:hidden; background:#e0ecff;}
+
+
+/*全局样式*/
+.gloab-font{
+	font-size: 16px;
+	font-family: 微软雅黑;
+	text-align: center;
+	margin: 20px 0;
+}
+.tablemain{
+	margin-bottom: 20px;
+}
+.tablemain label{
+	width: 90px;
+	display: inline-block;
+}
+.searh-line{
+  height: 22px;
+  float: left;
+  line-height: 22px;
+}
+
+.main-all{
+	
+	line-height: 30px;
+	background-color: #aec6e6;
+	padding-left: 20px;
+}
+
+/*登陆样式*/
+/*--login--*/
+body.login {
+  background: url(../images/login_bgx.gif);
+}
+.login_m{ width:403px; margin:0 auto; height:375px; margin-top:98px; /*position: absolute;left:50%;top:50%;margin-left:-202px;margin-top:-188px;*/}
+.login_logo{ text-align:center; margin-bottom:25px;}
+.login_boder{ background: url(../images/login_m_bg.png) no-repeat; height:302px; overflow:hidden;}
+.login_padding{ padding:28px 47px 20px 47px ;}
+.login_boder h2{ color:#4f5d80; text-transform:uppercase; font-size:12px; font-weight:normal; margin-bottom:11px;}
+.forget_model_h2{color:#4f5d80; font-size:12px; font-weight:normal; margin-bottom:11px;}
+
+.login_boder input.txt_input{ width:295px; height:36px; border:1px solid #cad2db; background:url(../images/txt_input_bg.gif) no-repeat;  padding:0 5px; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; line-height:36px; margin-bottom:10px; font-size:14px; color:#717171; font-family:Arial;}
+.login_boder input.txt_input2{ margin-bottom:20px;}
+.login_boder input.txt_input:focus{ transition:border linear .2s,box-shadow linear .2s; -moz-transition:border linear .2s,-moz-box-shadow linear .2s; -webkit-transition:border linear .2s,-webkit-box-shadow linear .2s; outline:none;border-color:rgba(173,173,173.75); box-shadow:0 0 8px rgba(173,173,173,.5); -moz-box-shadow:0 0 8px rgba(173,173,173,.5); -webkit-box-shadow:0 0 8px rgba(173,173,173,3); border:1px solid #6192c8;}
+.login_boder p.forgot{ font-size:11px;  text-align:right; margin-bottom:15px;}
+.login_boder p.forgot a,.login_boder p.forgot a:visited{color:#8c8e91;}
+.login_boder p.forgot a:hover{color:#206fd5;}
+.rem_sub input.sub_button{ float:right; width:122px; height:32px; background:url(../images/site_bg.png) no-repeat -153px -850px; border:none; color:#FFF; padding-bottom:2px; font-size:14px; font-weight:bold;}
+
+.rem_sub input.sub_buttons{ float:left; width:122px;  height:32px; background:url(../images/site_bg.png) no-repeat -153px -850px; border:none; color:#FFF; padding-bottom:2px; font-size:14px; font-weight:bold;}
+.rem_sub input.sub_buttons:hover{ background-position:-153px -882px; cursor:pointer;}
+
+.rem_sub input.sub_button:hover{ background-position:-153px -882px; cursor:pointer;}
+.rem_sub .rem_sub_l{ float:left; font-size:12px; height:33px; line-height:33px;}
+.rem_sub input#checkbox{ margin-right:5px; vertical-align:middle;}
+.wu-header-right a:hover{
+	color:#F93;
+}

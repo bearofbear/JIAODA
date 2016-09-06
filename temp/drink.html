@@ -1,0 +1,50 @@
+     <div style="padding:10px 0 20px;" id="drinktool">
+        <select class="easyui-combobox" name="state" style="width:200px;">
+        <option value="AL">项目点选择</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        </select>
+    </div>
+    <table id="rcb" title="日成本核算" class="easyui-datagrid" style="width:auto;"
+singleSelect="true" iconCls="icon-save" rownumbers="true">
+        <thead>
+            <tr>
+                <th rowspan="2" field="itemid" width="80" data-options="editor:'text'">日期</th>
+              
+                <th colspan="2" width="200">早餐</th>
+
+                <th colspan="2" width="200">正餐</th>
+                <th colspan="1">果汁吧</th>
+                <th colspan="1">其他</th>
+                <th colspan="4">当日总计</th>
+            </tr>
+
+            <tr>
+                <th field="productid" width="90" align="center" data-options="editor:'text'">早餐销售收入</th>
+                <th field="productname" width="90" align="center" data-options="editor:'text'">夜宵点心销售收入</th>
+                <th field="productid" width="80" align="center" data-options="editor:'text'">中餐销售收入</th>
+                <th field="productname" width="80" align="center" data-options="editor:'text'">晚餐销售收入</th>
+                <th field="productname" width="80" align="center" data-options="editor:'text'">销售收入</th>
+                <th field="productname" width="150" align="center" data-options="editor:'text'">销售收入</th>
+
+                <th field="productname" width="150" align="center" data-options="editor:'text'">销售收入</th>
+                <th field="productname" width="150" align="center" data-options="editor:'text'">销售成本</th>
+                <th field="productname" width="150" align="center" data-options="editor:'text'">毛利</th>
+                <th field="productname" width="150" align="center" data-options="editor:'text'">毛利率</th>
+            </tr>
+
+        </thead>
+    </table>
+                
+<script>
+    $('#rcb').datagrid({
+      url:'temp/datagrid.json',
+      method:'get',
+      rownumbers:true,
+      fit:true,
+       pagination:true,
+      toolbar:'#drinktool'
+  });
+</script>

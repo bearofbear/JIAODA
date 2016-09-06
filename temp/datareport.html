@@ -1,0 +1,410 @@
+
+<div class="easyui-layout" style="width:auto;height:100%">
+		
+		<div data-options="region:'west',split:true" title="下拉选择项" style="width:170px;">
+			
+			<div id="gent" style="margin:10px 5px;">
+			    <select class="easyui-combobox" name="state" style="width:150px;">
+			    <option value="AL">项目点选择</option>
+			    <option value="AK">Alaska</option>
+			    <option value="AZ">Arizona</option>
+			    <option value="AR">Arkansas</option>
+			    <option value="CA">California</option>
+			    </select>
+			    <p></p>
+			    <!-- 表格筛选 -->
+			    <select id="state" class="easyui-combobox" name="state" style="width:150px">
+				
+				
+				</select>
+				
+
+			</div>
+
+		</div>
+		<div data-options="region:'center',title:'选择结果',iconCls:'icon-ok'" id="bong">
+			<div style="padding:10px 5px;" id="reportgon">
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="reportadd()" plain="true">新增</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="reportedit()" plain="true">编辑</a>
+			</div>
+			 <!-- 表一 -->
+			<div style="display:block" data-num='1'>
+		       <table id="mor" title="早餐系列" class="easyui-datagrid" style="width:auto;"iconCls="icon-save" rownumbers="true">
+		            <thead>
+		                <tr>
+		                    <th rowspan="2" field="data" width="80" align="center">日期</th>
+		                  
+		                    <th colspan="8">早餐</th>
+		                </tr>
+		                <tr>
+		                    <th field="reportka" width="80" align="center">卡机</th>
+		                    <th field="reportkanum" width="80" align="center">卡机客数</th>
+		                    <th field="canq" width="100" align="center">餐券</th>
+		                    <th field="canqks" width="60" align="center">餐券客数</th>
+		                    <th field="qds" width="180" align="center">签单</th>
+		                    <th field="qdks" width="100" align="center" >签单客数</th>
+		                    <th field="ksxj" width="80" align="center">客数小计</th>
+		                    <th field="godall" width="60" align="center">金额小计</th>
+		                </tr>
+		            </thead>
+		    	</table>
+		    </div>
+
+		    <div style="display:none;" data-num='2'>
+		    	<!-- 表二 -->
+               <table id="dinner" title="早餐系列" class="easyui-datagrid" iconCls="icon-save" >
+                    <thead>
+                        <tr>
+                            <th rowspan="2" field="itemid" width="80">日期</th>
+                          
+                            <th colspan="8">夜宵，夜点心</th>
+                        </tr>
+                        <tr>
+                            <th field="productid" width="80" align="center" >卡机</th>
+                            <th field="productname" width="160" align="center" >卡机客数</th>
+                            <th field="unitcost" width="100" >餐券</th>
+                            <th field="status" width="60" align="center">餐券客数</th>
+                            <th field="listprice" width="80" align="center" >签单</th>
+                            <th field="attr1" width="80" align="center" >签单客数</th>
+                            <th field="itemid" width="80" >客数小计</th>
+                            <th field="aj" width="100" align="center" >金额小计</th>
+                        </tr>
+                    </thead>
+            	</table>
+		    </div>	
+
+		    <div style="display:none" data-num='3'>
+		    	<!-- 表三 -->
+               <table id="zcz" title="正餐系列" class="easyui-datagrid"  iconCls="icon-save" rownumbers="true">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" field="itemid" width="80" data-options="editor:'text'">日期</th>
+                              
+                                <th colspan="10">中餐</th>
+                            </tr>
+                            <tr>
+                                <th field="productid" width="80" align="right" data-options="editor:'text'">卡机</th>
+                                <th field="productname" width="80" align="right" data-options="editor:'text'">卡机客数</th>
+                                <th field="unitcost" width="80" data-options="editor:'text'">餐券</th>
+                                <th field="status" width="60" align="center" data-options="editor:'text'">餐券客数</th>
+                                <th field="listprice" width="80" align="right" data-options="editor:'text'">签单</th>
+                                <th field="attr1" width="80" align="right" data-options="editor:'text'">签单客数</th>
+                                <th field="itemid" width="80" data-options="editor:'text'">客数小计</th>
+                                <th field="aj" width="60" align="center" data-options="editor:'text'">金额小计</th>
+                                <th field="aj" width="160" align="center" data-options="editor:'text'">正餐客数</th>
+                                <th field="aj" width="160" align="center" data-options="editor:'text'">成本收入</th>
+                            </tr>
+                        </thead>
+                    </table>
+		    </div>
+		    <!-- 表四	 -->
+		    <div style="display:none" data-num='4'>
+		    	<table id="zcw" title="正餐系列" class="easyui-datagrid" iconCls="icon-save" rownumbers="true">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" field="itemid" width="80">日期</th>
+                                  
+                                    <th colspan="10">晚餐</th>
+                                </tr>
+                                <tr>
+                                    <th field="productid" width="80" align="right" data-options="editor:'text'">卡机</th>
+                                    <th field="productname" width="80" align="right" data-options="editor:'text'">卡机客数</th>
+                                    <th field="unitcost" width="40" data-options="editor:'text'">餐券</th>
+                                    <th field="status" width="60" align="center" data-options="editor:'text'">餐券客数</th>
+                                    <th field="listprice" width="80" align="right" data-options="editor:'text'">签单</th>
+                                    <th field="attr1" width="80" align="right" data-options="editor:'text'">签单客数</th>
+                                    <th field="itemid" width="80" data-options="editor:'text'">客数小计</th>
+                                    <th field="aj" width="60" align="center" data-options="editor:'text'">金额小计</th>
+                                    <th field="aj" width="60" align="center" data-options="editor:'text'">正餐客数</th>
+                                    <th field="aj" width="60" align="center" data-options="editor:'text'">成本收入</th>
+                                </tr>
+                            </thead>
+                        </table>
+		    </div>
+
+		    <div style="display:none" data-num='5'>
+		    	<!-- 表三五-->
+                <table id="gj" title="果汁" class="easyui-datagrid" iconCls="icon-save" rownumbers="true">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" field="itemid" width="80" data-options="editor:'text'">日期</th>
+                              
+                                <th colspan="8">果汁吧</th>
+                            </tr>
+                            <tr>
+                                <th field="productid" width="80" align="right" data-options="editor:'text'">卡机</th>
+                                <th field="productname" width="80" align="right" data-options="editor:'text'">卡机客数</th>
+                                <th field="unitcost" width="80" data-options="editor:'text'">餐券</th>
+                                <th field="status" width="160" align="center" data-options="editor:'text'">餐券客数</th>
+                                <th field="listprice" width="80" align="right" data-options="editor:'text'">签单</th>
+                                <th field="attr1" width="80" align="right" data-options="editor:'text'">签单客数</th>
+                                <th field="itemid" width="80" data-options="editor:'text'">客数小计</th>
+                                <th field="aj" width="60" align="center" data-options="editor:'text'">金额小计</th>
+                               
+                            </tr>
+                        </thead>
+                    </table>
+		    </div>
+
+		    <div style="display:none;" data-num='6'>
+		    	<!-- 表六 -->
+		    	<table id="qt" title="其他" class="easyui-datagrid" iconCls="icon-save" rownumbers="true">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" field="itemid" width="80">日期</th>
+                                  
+                                    <th colspan="8">其他(包括宴会、饮料、粮油、干货。调味品等）</th>
+                                </tr>
+                                <tr>
+                                    <th field="productid" width="80" align="right" data-options="editor:'text'">卡机</th>
+                                    <th field="productname" width="80" align="right" data-options="editor:'text'">卡机客数</th>
+                                    <th field="unitcost" width="140" data-options="editor:'text'">餐券</th>
+                                    <th field="status" width="140" align="center" data-options="editor:'text'">餐券客数</th>
+                                    <th field="listprice" width="80" align="right" data-options="editor:'text'">签单</th>
+                                    <th field="attr1" width="80" align="right" data-options="editor:'text'">签单客数</th>
+                                    <th field="itemid" width="80" data-options="editor:'text'">客数小计</th>
+                                    <th field="aj" width="60" align="center" data-options="editor:'text'">金额小计</th>
+                               
+                                </tr>
+                            </thead>
+                </table>
+		    </div>
+
+
+		</div>
+	</div>
+
+
+<div id="reportdg" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width: auto; padding: 20px;">
+	<form id="reportfrom" method="post">
+		<table>
+				
+				<tr height="35">
+					<td align="right">日期:</td>
+					<td><input type="text" name="data" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td align="right">卡机:</td>
+					<td><input type="text" name="reportka" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td align="right">卡机客数:</td>
+					<td><input type="text" name="reportkanum" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td align="right">餐券:</td>
+					<td><input type="text" name="canq" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td align="right">餐券客数:</td>
+					<td><input type="text" name="canqks" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td align="right">签单:</td>
+					<td><input type="text" name="qds" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td valign="top" align="right">签单客数:</td>
+					<td>
+					<input type="text" name="qdks" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td valign="top" align="right">客数小计:</td>
+					<td>
+					<input type="text" name="ksxj" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td valign="top" align="right">金额小计:</td>
+					<td>
+					<input type="text" name="godall" class="easyui-textbox"
+						style="width: 200px" data-options="required:true" />
+					</td>
+				</tr>
+				<tr height="35">
+					<td valign="top" align="right">正餐客数:</td>
+					<td>
+					<input type="text" name="subject" class="easyui-textbox"
+						style="width: 200px"  />
+					</td>
+				</tr>
+				<tr height="35">
+					<td valign="top" align="right">成本收入:</td>
+					<td>
+					<input type="text" name="subject" class="easyui-textbox"
+						style="width: 200px" />
+					</td>
+				</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript">
+		
+	// 表一
+		$('#mor').datagrid({
+	      url:'temp/reportedit.json',
+	      method:'get',
+	      rownumbers:true,
+	      singleSelect:true,
+	      pagination:true,
+	      toolbar:'#reportgon'
+	      
+	      
+	  	});
+	  	 $('#dinner').datagrid({
+	      url:'temp/maingrid.json',
+	      method:'get',
+	      rownumbers:true,
+	      singleSelect:true,
+	      pagination:true,
+	      //fit:true,
+	     
+	  	});
+	   $('#zcz').datagrid({
+	      url:'temp/datagrid.json',
+	      method:'get',
+	      rownumbers:true,
+	      singleSelect:true,
+	      pagination:true,
+	      
+	     
+	  });
+
+	   $('#zcw').datagrid({
+	      url:'temp/maingrid.json',
+	      method:'get',
+	      rownumbers:true,
+	      singleSelect:true,
+	      pagination:true,
+	      
+	     
+	  });
+	    $('#gj').datagrid({
+	      url:'temp/datagrid.json',
+	      method:'get',
+	      rownumbers:true,
+	      singleSelect:true,
+	      pagination:true,
+	      
+	     
+	  });
+
+	   $('#qt').datagrid({
+	      url:'temp/maingrid.json',
+	      method:'get',
+	      rownumbers:true,
+	      singleSelect:true,
+	      pagination:true,
+	      
+	     
+	  });
+
+  	$('#state').combobox({
+  		url:'temp/report.json',
+  		method:'get',
+  		valueField:'id',
+  		textField:'text',
+  		onSelect:function(){
+  			var peo = $('#state').combobox('getValue');
+  			// peo=bonglen;
+
+  			console.log(peo)
+
+  		}
+
+  	})
+
+  	// 提交验证
+
+  	function reportsirs() {
+	 	$('#reportfrom').form('submit', {
+	 		url : '',
+	 		onSubmit : function() {
+				return $(this).form('enableValidation').form('validate');
+			},
+	 		success : function(data) {
+	 			if (data) {
+	 				$.messager.alert('信息提示', '提交成功！', 'info');
+	 				$('#reportdg').dialog('close');
+	 			} else {
+	 				$.messager.alert('信息提示', '提交失败！', 'info');
+	 			}
+	 		}
+	 	});
+	 }
+	 // 新增纪录
+  	function reportadd(){
+
+  		$('#reportfrom').form('clear').form('disableValidation');
+
+  		$('#reportdg').dialog({
+	 		closed : false,
+	 		modal : true,
+	 		title : "新增纪录",
+	 		buttons : [ {
+	 			text : '确定',
+	 			iconCls : 'icon-ok',
+	 			handler : reportsirs
+	 		}, {
+	 			text : '取消',
+	 			iconCls : 'icon-cancel',
+	 			handler : function() {
+	 				$('#reportdg').dialog('close');
+	 			}
+	 		} ]
+	 	});
+  	}
+
+  	// 修改纪录
+  	function reportedit(){
+  		var row = $('#mor').datagrid('getSelected');
+  		if(row){
+  			$('#reportfrom').form('clear').form('disableValidation');
+  			$('#reportfrom').form('load', {
+	 			data : row.data,
+	 			reportka : row.reportka,
+	 			reportkanum : row.reportkanum,
+	 			canq : row.canq,
+	 			canqks : row.canqks,
+	 			qds : row.qds,
+	 			qdks : row.qdks,
+	 			canqks : row.canqks,
+	 			ksxj:row.ksxj,
+	 			godall:row.godall
+	 		});
+	 		$('#reportdg').dialog({
+	 			closed : false,
+	 			modal : true,
+	 			title : "修改商品",
+	 			buttons : [ {
+	 				text : '确定',
+	 				iconCls : 'icon-ok',
+	 				handler : reportsirs
+	 			}, {
+	 				text : '取消',
+	 				iconCls : 'icon-cancel',
+	 				handler : function() {
+	 					$('#reportdg').dialog('close');
+	 				}
+	 			} ]
+	 		});
+  		}else {
+	 		$.messager.alert('信息提示', '请选择一行纪录！', 'info');
+	 	}
+  	}
+</script>

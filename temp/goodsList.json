@@ -1,0 +1,21 @@
+[{
+    "id":1,
+    "text":"大豆",
+    "price":1.5,
+    "weight":0.2
+},{
+    "id":2,
+    "text":"鸡蛋",
+    "price":2,
+    "weight":0.3
+},{
+    "id":3,
+    "text":"椒盐",
+    "price":1,
+    "weight":0.4
+},{
+    "id":4,
+    "text":"豆角",
+    "price":0.5,
+    "weight":0.5
+}]

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="All Rights Reserved, Copyright (C) 2013, Wuyeguo, Ltd." />
+<title>EasyUI Web Admin Power by Wuyeguo</title>
+<link rel="stylesheet" type="text/css" href="easyui/1.3.4/themes/default/easyui.css" id="theme" />
+<link rel="stylesheet" type="text/css" href="css/wu.css" />
+<link rel="stylesheet" type="text/css" href="css/icon.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/1.3.4/jquery.easyui.min3.js"></script>
+<script type="text/javascript" src="easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<!-- <script type="text/javascript" src="http://www.w3cschool.cc/try/jeasyui/datagrid-detailview.js"></script>
+ --></head>
+<body class="easyui-layout">
+	<!-- begin of header -->
+	<div class="wu-header" data-options="region:'north',border:false,split:true">
+    	<div class="wu-header-left">
+        	<h1 style="font-family:微软雅黑;font-weight:bold">交大后勤管理系统</h1>
+        </div>
+        <div class="wu-header-right">
+        	<p><strong class="easyui-tooltip" title="2条未读消息">admin</strong>，欢迎您！</p>
+            <p><a href="index.html">网站首页</a>|<a href="login.html">安全退出</a></p>
+        </div>
+        <div class="wu-header-logo">
+            <img src="images/logo.png" width="98" height="50" alt="">
+        </div>
+    </div>
+    <!-- end of header -->
+    <!-- begin of sidebar -->
+	<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'主功能选项'"> 
+    	<div class="easyui-accordion" data-options="border:false,fit:true"> 
+        	<div title="系统设置" data-options="iconCls:'icon-application-cascade'" style="padding:5px;">  	
+    			<ul class="easyui-tree wu-side-tree">
+                    <li iconCls="icon-clipboard"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-2.html" iframe="0">企业信息维护</a></li>
+<!--                     <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/layout-3.html" iframe="0">打印末班设置</a></li> -->
+                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/management.html" iframe="0">角色管理</a></li>
+                    <li iconCls="icon-user-edit"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/users.html" iframe="0">用户管理</a></li>
+                    <li iconCls="icon-user-edit"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/themes.html" iframe="0">皮肤设置</a></li>
+                </ul>
+            </div>
+            <div title="基础资料" data-options="iconCls:'icon-wrench',selected:true" style="padding:5px;">  	
+    			<ul class="easyui-tree wu-side-tree">
+                	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/layout-4.html" iframe="0">商品管理</a>
+                    </li>
+                    <li iconCls="icon-chart-organisation">
+                    <a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/foodmenu.html" iframe="0">菜单管理</a>
+                    </li>
+                    <li iconCls="icon-chart-organisation">
+                    <a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/supplier.html" iframe="0">供应商管理</a>
+                    </li>
+                    <li iconCls="icon-chart-organisation">
+                    <a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/projectpoint.html" iframe="0">项目点管理</a>
+                    </li>
+             
+                </ul>
+            </div>
+            <div title="仓存管理" data-options="iconCls:'icon-creditcards'" style="padding:5px;">  	
+    			<ul class="easyui-tree wu-side-tree">
+                    <li iconCls="icon-building-edit"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/purorder.html" iframe="0">订单管理</a></li>
+                	<li iconCls="icon-cart-go"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/purchase.html" iframe="0">入库管理</a></li>
+                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/material.html" iframe="0">出库管理</a></li>
+                </ul>
+            </div>
+            <div title="存货核算" data-options="iconCls:'icon-cart'" style="padding:5px;">  	
+    			<ul class="easyui-tree wu-side-tree">
+                	<li iconCls="icon-application-edit">
+                        <a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/balance.html" iframe="0">业务期末结账</a>
+                    </li>
+                </ul>
+            </div>
+            <div title="报表与分析" data-options="iconCls:'icon-bricks'" style="padding:5px;">  	
+    			<ul class="easyui-tree wu-side-tree">
+                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/datareport.html" iframe="0">报表汇总</a></li>
+                	<!-- <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="temp/layout-1.html" iframe="0">日营业收入表</a></li> -->
+                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="temp/drink.html" iframe="0">日成本核算表</a></li>
+                    <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="temp/project.html" iframe="0">项目出货查询</a></li>
+                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="temp/purchase_cost.html" iframe="0">采购成本查询</a></li>
+                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/price_variance.html" iframe="0">价格差异结算表</a></li>
+                    <li iconCls="icon-application-osx-error"><a href="javascript:void(0)" data-icon="icon-application-osx-error" data-link="temp/getall.html" iframe="0">存货收发存汇总表</a></li>
+                </ul>
+            </div>
+           
+        </div>
+    </div>	
+    <!-- end of sidebar -->
+     <div data-options="region:'east',split:true" title="消息" style="width:250px">                        
+        
+        <div class="easyui-accordion" style="width:auto;height:100%;">
+            <div title="提醒框" data-options="iconCls:'icon-tip'" style="overflow:auto;padding:10px;">
+                <h3 style="color:#0099FF;">Accordion for jQuery</h3>
+                <p>Accordion is a part of easyui framework for jQuery. It lets you define your accordion component on web page more easily.</p>
+            </div>
+            <div title="预警框" data-options="iconCls:'icon-tip'" style="padding:10px;">
+                <p>yu</p>      
+            </div>
+        </div>
+    </div>
+    <!-- begin of main -->
+    <div class="wu-main" data-options="region:'center'">
+        <div id="wu-tabs" class="easyui-tabs" data-options="border:false,fit:true,tools:'#tab-tools'">  
+        <!-- data-options="href:'temp/layout-1  .html',closable:false,iconCls:'icon-tip',cls:'pd3'" -->
+            <div title="欢迎进入"> 
+                <img src="images/bg_cont.jpg" width="100%" height="100%" alt="">     
+
+            </div>
+
+
+        </div>
+
+        <!-- <div id="tab-tools">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-delete3'" onclick="closeAll()"></a>
+        </div> -->
+
+    </div>
+    <!-- end of main --> 
+    <!-- begin of footer -->
+	<div class="wu-footer" data-options="region:'south',border:true,split:true">
+    	&copy; 2015 Wu All Rights Reserved
+    </div>
+    <!-- end of footer -->
+
+    <!-- 菜单栏目 -->
+    <div id="mm" class="easyui-menu"  style="width:200px;">
+        <div data-options="name:'new',iconCls:'icon-arrow-refresh'" onclick="refresh()">刷新</div>
+        <div data-options="name:'print',iconCls:'icon-close'" onclick="removeTab()">关闭</div>
+        <div data-options="name:'save'" onclick="closeAll()">全部关闭</div>
+        <div id="closeother">除此之外全部关闭</div>
+        <div id="closeright">关闭右侧标签页</div>
+        <div id="closeleft">关闭左侧标签页</div>
+        <div class="menu-sep"></div>
+        <div data-options="name:'exit'">退出</div>
+    </div>
+
+
+    <script type="text/javascript">
+        var opentabs = 8;
+		$(function(){
+			$('.wu-side-tree li').bind("click",function(){
+				var title = $(this).text();
+				var url = $(this).find('a').attr('data-link');
+				var iconCls = $(this).attr('data-icon');
+				var iframe = $(this).find('a').attr('iframe')==1?true:false;
+				addTab(title,url,iconCls,iframe);
+                //createFrame(url);
+
+			});	
+		})
+
+        
+
+        $('#wu-tabs').tabs({
+            onContextMenu:function(e){
+                e.preventDefault();
+                $('#mm').menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            }
+        })
+
+       // tab刷新
+       function refresh(){
+        var currTab =  self.parent.$('#wu-tabs').tabs('getSelected'); //获得当前tab
+        var url = currTab.panel('options').href; // 相应的标签页（tab）对象
+       
+        var content = '<iframe scrolling="auto" frameborder="0"  src="'+ url +'"  style="width:100%;height:100%;"></iframe>';
+        //console.log(tab);
+        $('#wu-tabs').tabs('update', {
+          tab : currTab,
+          options : {
+
+            content:content
+          }
+         });
+       }
+
+       //关闭非当前标签页（先关闭右侧，再关闭左侧）
+        $("#closeother").bind("click",function(){
+            var tablist = $('#wu-tabs').tabs('tabs');
+            var tab = $('#wu-tabs').tabs('getSelected');
+            var index = $('#wu-tabs').tabs('getTabIndex',tab);
+            for(var i=tablist.length-1;i>index;i--){
+                $('#wu-tabs').tabs('close',i);
+            }
+            var num = index-1;
+            for(var i=num;i>=0;i--){
+                $('#wu-tabs').tabs('close',0);
+            }
+        });
+
+        //关闭当前标签页右侧标签页
+        $("#closeright").bind("click",function(){
+            var tablist = $('#wu-tabs').tabs('tabs');
+            var tab = $('#wu-tabs').tabs('getSelected');
+            var index = $('#wu-tabs').tabs('getTabIndex',tab);
+            for(var i=tablist.length-1;i>index;i--){
+                $('#wu-tabs').tabs('close',i);
+            }
+        });
+        //关闭当前标签页左侧标签页
+        $("#closeleft").bind("click",function(){
+            var tab = $('#wu-tabs').tabs('getSelected');
+            var index = $('#wu-tabs').tabs('getTabIndex',tab);
+            var num = index-1;
+            for(var i=0;i<=num;i++){
+                $('#wu-tabs').tabs('close',0);
+            }
+        });
+
+        
+        //关闭所有的tab
+        function closeAll(){
+
+            $.messager.confirm('消息提醒', '确认关闭所有窗口?', function(r){
+                    if (r){
+                          var tiles = new Array();
+                          var tabs = $('#wu-tabs').tabs('tabs');    
+                          var len =  tabs.length;         
+                          if(len>0){
+                            for(var j=0;j<len;j++){
+                                var a = tabs[j].panel('options').title;             
+                                tiles.push(a);
+                            }
+                            for(var i=1;i<tiles.length;i++){                
+                                $('#wu-tabs').tabs('close', tiles[i]);
+                            }
+
+                          }
+                    }
+            });
+             
+        }
+
+        // 按钮组
+
+        $('#wu-tabs').tabs({
+            tools:[{
+                iconCls:'icon-refresh',
+                handler:function(){
+                    refresh();
+                }
+            },{
+                iconCls:'icon-cancel',
+                handler:function(){
+                    closeAll();
+                }
+            }]
+        });
+			
+		/**
+		* Name 添加菜单选项
+		* Param title 名称
+		* Param href 链接
+		* Param iconCls 图标样式
+		* Param iframe 链接跳转方式（true为iframe，false为href）
+		*/	
+		function addTab(title, url, iconCls, iframe){
+
+			var tabPanel = $('#wu-tabs');
+            var opentabs = 8; //允许打开的TAB数量
+            var tabCount = tabPanel.tabs('tabs').length;
+            //console.log(tabCount);
+            if (tabCount > opentabs) {
+                var msg = '<b>您当前打开了太多的页面，如果继续打开，会造成程序运行缓慢，无法流畅操作！</b>';
+                $.messager.confirm("系统提示", msg, function (r) {
+                    if(r){
+                         return true;
+                    }
+                   
+                });
+                return false;
+               
+                
+               
+            }
+			if(!tabPanel.tabs('exists',title)){
+				
+                //console.log(content)
+				if(iframe){
+					tabPanel.tabs('add',{
+						title:title,
+						content:content,
+						iconCls:iconCls,
+						fit:true,
+						cls:'pd3',
+						closable:true
+					});
+				}
+				else{
+					tabPanel.tabs('add',{
+						title:title,
+						href:url,
+						iconCls:iconCls,
+						fit:true,
+						cls:'pd3',
+						closable:true
+					});
+				}
+			}
+			else
+			{
+				tabPanel.tabs('select',title);
+			}
+
+            
+		}
+
+       
+        
+		/**
+		* Name 移除菜单选项
+		*/
+		function removeTab(){
+			var tabPanel = $('#wu-tabs');
+			var tab = tabPanel.tabs('getSelected');
+			if (tab){
+				var index = tabPanel.tabs('getTabIndex', tab);
+				tabPanel.tabs('close', index);
+			}
+		}
+
+        
+        
+
+
+	</script>
+</body>
+</html>

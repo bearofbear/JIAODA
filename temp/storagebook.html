@@ -1,0 +1,82 @@
+<div class="easyui-layout" data-options="fit:true">
+  
+    <div data-options="region:'center',border:false">
+      <!-- Begin of toolbar -->
+        <div id="wu-toolbar">
+            <div class="wu-toolbar-button">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-print" onclick="openAdd()" plain="true">打印</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-back" onclick="reload()" plain="true">返回</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-save" onclick="reload()" plain="true">保存</a>
+
+            </div>
+        
+        </div>
+    
+
+        <table id="bookinfo" class="easyui-datagrid" data-options="method:'get'"  >  
+        </table> 
+       
+
+       
+    </div>
+
+    
+
+
+</div>
+
+<script type="text/javascript">
+
+    /**
+  * Name 分页过滤器
+  */
+  function pagerFilter(data){            
+    if (typeof data.length == 'number' && typeof data.splice == 'function'){// is array                
+      data = {                   
+        total: data.length,                   
+        rows: data               
+      }            
+    }        
+    var dg = $(this);         
+    var opts = dg.datagrid('options');          
+    var pager = dg.datagrid('getPager');          
+    pager.pagination({                
+      onSelectPage:function(pageNum, pageSize){                 
+        opts.pageNumber = pageNum;                   
+        opts.pageSize = pageSize;                
+        pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});                  
+        dg.datagrid('loadData',data);                
+      }          
+    });           
+    if (!data.originalRows){               
+      data.originalRows = (data.rows);       
+    }         
+    var start = (opts.pageNumber-1)*parseInt(opts.pageSize);          
+    var end = start + parseInt(opts.pageSize);        
+    data.rows = (data.originalRows.slice(start, end));         
+    return data;       
+  }
+
+    $('#bookinfo').datagrid({
+      url:'temp/datagrid.json',
+      loadFilter:pagerFilter,   
+      singleSelect:false,
+      pageSize:20,           
+      pagination:true,
+      pagePosition:'top', 
+      multiSort:true,
+      fitColumns:true,
+      fit:true,
+      columns:[[
+       { checkbox:true},
+        { field:'productid',title:'行号',width:100,sortable:true},
+        { field:'productname',title:'物料代码',width:180,sortable:true,editor:'text'},
+        { field:'unitcost',title:'物料名称',width:100,editor:'text'},
+        { field:'listprice',title:'规格型号',width:100,editor:'text'},
+        { field:'status',title:'收料仓库',width:100,editor:'text'},
+        { field:'attr1',title:'辅助属性',width:100,editor:'text'},      
+      ]]
+  });
+
+</script>
+

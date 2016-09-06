@@ -1,0 +1,109 @@
+<div class="easyui-layout" data-options="fit:true">
+
+     <table id="tt" class="easyui-datagrid" title="入库详情" style="height:500px;" data-options="method:'get',toolbar:'#wu-purchasebar'" >  
+     </table> 
+
+     <div id="wu-purchasebar">
+            <div class="wu-toolbar-button">
+              <a href="#" class="easyui-linkbutton" iconCls="icon-zoom" onclick="storageConfirm()" plain="true">入库审核</a>
+              <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="storageConfirm()" plain="true">入库确认</a>
+
+            </div>
+
+            <!-- 搜索筛选 -->
+            <table width="100%" border="0" cellspacing="0" class="tablemain">
+               <tr>
+                 <td width="8%"><label class="searh-line">供应商(*)：</label></td>
+                 <td width="24%" height="37"><input class="easyui-searchbox" data-options="prompt:'Please Input Value'" style="width:270px">
+                 </td>
+                 <td width="7%">日期(*)：</td>
+                 <td width="26%"><input id="pur" class="easyui-datebox" disabled="disabled" value="" style="width:270px"></td>
+                 <td width="8%">&nbsp;<a href="#" class="easyui-linkbutton" iconcls="icon-search" onclick="search()">搜索</a></td>
+                 <td width="27%"></td>
+               </tr>
+
+              
+               
+               <tr>
+                 <td>编号(*)： </td>
+                 <td height="37" colspan="5"><input class="easyui-textbox" style="width:270px" /></td>
+               </tr>
+            </table> 
+        
+      </div>
+
+
+
+    <!-- <div class="main-all">
+      <span>合计</span>
+
+    </div>   -->
+
+<div id="confirmDialog" style="width: 300px; height: 200px; padding: 10px;" class="easyui-window" data-options="closed:true">
+	<form action="" id="wuorders" method="post">
+		<div style="margin-bottom: 20px">
+			<div>实收数量:</div>
+			<input name="realCount" class="easyui-numberbox" style="width:100%" data-options="required:true">
+		</div>
+		<div>
+			<div>
+				<div>产地:</div>
+				<input name="productPlace" class="easyui-textbox" style="width:100%">
+			</div>
+
+		</div>
+	</form>
+</div>
+</div>
+
+<script type="text/javascript">
+    $('#tt').datagrid({
+      url:'temp/order.json',
+      fitColumns : true,
+      collapsible : true,
+      fit : true,
+      rownumbers : true,
+      pageSize : 10,
+      pagePosition : 'bottom',
+      // pageList:[10,20,30,40],    
+      pagination : true,
+
+      columns:[[
+        { field:'ordernum',title:'入库编号',width:100,sortable:true},
+        { field:'timeup',title:'入库日期',width:100,sortable:true},
+        { field:'productname',title:'供应商',width:180,sortable:true},
+        { field:'coder',title:'商品代码',width:100,},
+        { field:'shopname',title:'商品名称',width:100},
+        { field:'much',title:'订购数量',width:100},
+        { field:'onlne',title:'实收数量',width:100,},  
+        { field:'allmuch',title:'单价',width:100}, 
+        { field:'allmuch',title:'总价',width:100}
+
+      ]]
+  });
+
+   $(function(){
+            var d = new Date();
+            var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+            $('#pur').attr('value',str);
+  })
+
+  function storageConfirm(){
+	   $("#confirmDialog").dialog({
+		   title : "入库确认",
+		   modal:true,
+		   iconCls:'icon-ok',
+		   buttons : [ {
+	 			text : '确定',
+	 			iconCls : 'icon-ok'
+	 		}, {
+	 			text : '取消',
+	 			iconCls : 'icon-cancel',
+	 			handler : function() {
+	 				$('#confirmDialog').dialog('close');
+	 			}
+	 		} ]
+	   });
+   }
+</script>
+

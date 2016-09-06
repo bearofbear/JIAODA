@@ -1,0 +1,33 @@
+ <div class="easyui-layout"> 
+   <div class="easyui-panel" title="结账将当前期间所有数据结转到下一期间，包括结存数量" data-options="iconCls:'icon-tip'"> 
+	    <table id="jsd" class="easyui-datagrid" style="width:auto;height:350px" data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:'#tb'"> 
+	     <thead> 
+	      <tr> 
+	       <th data-options="field:'itemid',width:100">期间</th> 
+	       <th data-options="field:'productid',width:500">起始日期</th> 
+	       <th data-options="field:'listprice',width:500,align:'center'">截止日期</th> 
+	       <th data-options="field:'unitcost',width:500,align:'center'">结算状态</th> 
+	      </tr> 
+	     </thead> 
+	    </table> 
+
+		<div style="padding:10px;">
+			<div style="margin-bottom:20px;">
+				<input type="checkbox">即时核对推荐
+				<input type="radio" name="aa">结账 <input type="radio" name="aa">反结账
+			</div>
+			<div>
+				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确认结账</a>
+			</div>
+		</div>
+   </div> 
+
+  </div> 
+  <script>
+    $('#jsd').datagrid({
+      url:'temp/datagrid.json',
+      method:'get',
+      // rownumbers:true,
+     
+  });
+</script>
